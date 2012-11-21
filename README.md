@@ -1,8 +1,8 @@
 Octocat Jump
 ============
 
-<img src="http://imgur.com/EFb3q" style="border:0;">
-<img src="http://imgur.com/evNAi" style="border:0;">
+<img src="http://i.imgur.com/rCRrx.png" style="border:0;">
+<img src="http://i.imgur.com/QOGtr.png" style="border:0;">
 
 About
 -----
