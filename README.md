@@ -29,7 +29,7 @@ Font Diner's [Chewy](http://www.google.com/webfonts/specimen/Chewy).
 
 And Github's @bryanveloso, @jonrohan, @jsncostello, @kneath, and @cameronmcefee for the [Octicons](https://github.com/styleguide/css/7.0) font.
 
-Any other assets were either photomanipulated with GIMP or synthesize with SFXR.
+Any other assets were either photomanipulated with GIMP or synthesized with SFXR.
 
 To do:
 ------
