@@ -19,17 +19,13 @@ Overall, not a lot of canvas is used, which means less performance, as the DOM g
 
 Credits
 -------
-Louis Stowasser for his awesome framework [Crafty](http://craftyjs.com).
+Louis Stowasser for his awesome framework [Crafty](http://craftyjs.com).  
+[The Octocat sprite](https://github.com/mozilla/BrowserQuest/blob/master/client/img/3/octocat.png) by [sork](https://github.com/sork).  
+[Pow Studio](http://powstudios.com/content/smoke-animation-pack-1) - for the smoke jump sprite.  
+Font Diner's [Chewy](http://www.google.com/webfonts/specimen/Chewy).  
+And Github's @bryanveloso, @jonrohan, @jsncostello, @kneath, and @cameronmcefee for the [Octicons](https://github.com/styleguide/css/7.0) font.  
 
-[The Octocat sprite](https://github.com/mozilla/BrowserQuest/blob/master/client/img/3/octocat.png) by [sork](https://github.com/sork).
-
-[Pow Studio](http://powstudios.com/content/smoke-animation-pack-1) - for the smoke jump sprite.
-
-Font Diner's [Chewy](http://www.google.com/webfonts/specimen/Chewy).
-
-And Github's @bryanveloso, @jonrohan, @jsncostello, @kneath, and @cameronmcefee for the [Octicons](https://github.com/styleguide/css/7.0) font.
-
-Any other assets were either photomanipulated with GIMP or synthesized with SFXR.
+Any other assets were either photomanipulated with GIMP or synthesize with SFXR.
 
 To do:
 ------
