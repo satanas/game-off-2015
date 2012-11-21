@@ -1,9 +1,13 @@
 /**
- * @copyright Omer Goshen <gershon@goosemoose.com> 2012
+ * Octocat Jump
+ * A Github Game Off 2012 Entry
+ * @copyright Omer Goshen <gershon@goosemoose.com>
  */
-(function ($, Crafty) {
-    $(document).ready(function () {
-        var SCROLL_SPEED = 1,
+(function octocatJump($, Crafty) {
+    $(document).ready(function documentReady() {
+        var STAGE_WIDTH = 400,
+            STAGE_HEIGHT = 640,
+            SCROLL_SPEED = 1,
             GRAVITY = 1,
             SFX = true,
             level_data = [],
@@ -13,14 +17,11 @@
             n = 10,
             isDead = false;
 
-        Crafty.init(400, 640);
+        Crafty.init(STAGE_WIDTH, STAGE_HEIGHT);
         Crafty.canvas.init();
         // Crafty.viewport.init(Crafty.canvas._canvas.width, Crafty.canvas._canvas.height);
-        Crafty.viewport.init(400, 640);
-        // Crafty.settings.modify("autoPause", true);
-        // Crafty.modules({ 'crafty-debug-bar': 'release' }, function () {
-        //     Crafty.debugBar.show();
-        // });
+        Crafty.viewport.init(STAGE_WIDTH, STAGE_HEIGHT);
+        Crafty.settings.modify("autoPause", true);
 
         function initLevel() {
             var i = 0;
@@ -31,7 +32,7 @@
                 h: 20
             }];
 
-            for(; i < 10000; i++) {
+            for(i = 0; i < 10000; i++) {
                 level_data.push({
                     x: ~~ (Math.random() * (Crafty.viewport.width - 100)),
                     y: -Crafty.viewport.y + Crafty.viewport.height - i * 100,
@@ -143,7 +144,7 @@
             PUSH_HEIGHT: 32,
 
             init: function () {
-                this.requires("Keyboard");
+                this.requires("2D, Keyboard");
 
                 this._accel = new Crafty.math.Vector2D();
                 this._speed = new Crafty.math.Vector2D();
@@ -151,24 +152,25 @@
 
                 this.bind("KeyDown", function (e) {
                     switch(e.keyCode) {
-                    case Crafty.keys.SPACE:
-                        var clone = Crafty("OctoClone");
-                        var p = this.pos();
-                        this.x = clone.x;
-                        this.y = clone.y;
-                        clone.x = p._x;
-                        clone.y = p._y;
-                        break;
-
+                        case Crafty.keys.SPACE:
+                            var clone = Crafty("OctoClone");
+                            var p = this.pos();
+                            this.x = clone.x;
+                            this.y = clone.y;
+                            clone.x = p._x;
+                            clone.y = p._y;
+                            break;
                     case Crafty.keys.P:
                         Crafty.pause();
                         break;
                     case Crafty.keys.LEFT_ARROW:
                         this._accel.x = -this.ACCEL;
+                        // this._accel.x = Math.max(this._accel.x - this.ACCEL, -this.ACCEL);
                         this.flip();
                         break;
                     case Crafty.keys.RIGHT_ARROW:
                         this._accel.x = +this.ACCEL;
+                        // this._accel.x = Math.min(this._accel.x + this.ACCEL, this.ACCEL);
                         this.unflip();
                         break;
                     }
@@ -176,6 +178,12 @@
 
                 this.bind("KeyUp", function (e) {
                     switch(e.keyCode) {
+                        // case Crafty.keys.LEFT_ARROW:
+                        //     this._accel.x = Math.min(this._accel.x + this.ACCEL, this.ACCEL);
+                        //     break;
+                        // case Crafty.keys.RIGHT_ARROW:
+                        //     this._accel.x = Math.max(this._accel.x - this.ACCEL, -this.ACCEL);
+                        //     break;
                     case Crafty.keys.LEFT_ARROW:
                     case Crafty.keys.RIGHT_ARROW:
                         this._accel.x = 0;
@@ -288,9 +296,7 @@
                 if(s >= score) {
                     s = 0;
                     this.unbind("EnterFrame");
-
                     setTimeout(function () {
-
                         Crafty.e("2D, DOM, HTML").attr({
                             x: 0,
                             y: 64,
@@ -302,7 +308,22 @@
                 s = Math.min(s, score);
             });
 
-
+            var $tbl = $('<table><tr style="border-bottom: 2px solid black"><th>Name</th><th>Score</th></tr>');
+            for(var i=0; i<10; i++) {
+                // var $row = ('<tr><td>Name</td><td>' + (score + stars * 10) + '</td></tr>');
+                var $row = ('<tr><td>Name</td><td>Score</td></tr>');
+                $tbl.append($row);
+            }
+            Crafty.e("HTML, ScoreBoard")
+            .attr({x:20, y:250, w:Crafty.viewport.width - 40})
+            .css({
+                'color': '#000',
+                'border': '2px solid #000',
+                'borderRadius': '8px'
+                // 'boxShadow': '0px 8px 8px rgba(0,0,0,.2)'
+            })
+            .append('<table id="scoreboard" cellspacing="0">' + $tbl.html() + '</table>');
+            console.log([$tbl, $tbl.html()]);
 
             // // setTimeout(function() {
             // //     Crafty.scene("main");
@@ -333,6 +354,9 @@
                 t = e.frame - t0,
                 s = 10;
 
+            /**
+             * unitstep
+             */
             var u = function (t) {
                     // return t < 0 ? 0 : 1;
                     return ~~ (t > 0);
@@ -347,10 +371,6 @@
                     d = src.distance(dest),
                     v = dest.subtract(src);
 
-
-
-                // if(src.equals(dest)) {
-                // this.rotation-=5;
                 if(d <= 10) {
                     this.unbind("EnterFrame");
                     stars++;
@@ -362,24 +382,31 @@
                         'top': '-=10px',
                         'zoom': 1
                     }, 75);
-                    this.tween({
-                        // rotation: 0,
-                        alpha: 0
-                    }, 25).bind("TweenEnd", function (k) {
-                        if(k === 'alpha') {
-                            // $("#stars").animate({zoom: 1.5}, 150).delay(50).animate({zoom: 1}, 150);
-                            this.destroy();
-                        }
-                    });
+                    $("#stars>span:first").animate({
+                        'top': '+=10px',
+                        'zoom': 1.05
+                    }, 75).delay(75).animate({
+                        'top': '-=12px',
+                        'zoom': 1
+                    }, 100);
+
+                    this.destroy();
+
+                    // this.tween({
+                    //     // rotation: 0,
+                    //     alpha: 0
+                    // }, 25).bind("TweenEnd", function (k) {
+                    //     if(k === 'alpha') {
+                    //         // $("#stars").animate({zoom: 1.5}, 150).delay(50).animate({zoom: 1}, 150);
+                    //         this.destroy();
+                    //     }
+                    // });
                 }
 
-                // var s = Math.exp(1 + d / Crafty.viewport.height);
-                // var s = 100 * (d / Crafty.viewport.height);
-                // s = Math.exp(-3);
                 v.normalize();
-                // this.rotation = Math.atan2(v.y, -v.x) * 180 / Math.PI;
                 v.scale(s, s);
 
+                // apply some kind of back easing...
                 var df = e.frame - _frame;
                 var k = u(df - 25);
                 // var r = src.distance(_pos);
@@ -387,6 +414,10 @@
                 // v.y = k * v.y + 100 * Math.exp(-6*q) * (1 - k);
                 // v.y = k * v.y + -0.5 * v.y * q * (1-k);
                 v.y = k * v.y - 0.1 * v.y * (1 - k);
+
+                var f = e.frame % 8;
+                // this.alpha = ~~ (f < 5);
+                this.alpha = 1 - u(f - 5);
 
                 this.x += v.x;
                 this.y += v.y;
@@ -397,6 +428,7 @@
         function onHitFork(a) {
             var e = a[0].obj,
                 octocat = Crafty("Player"),
+                bg = Crafty("Background"),
                 bgovr = Crafty("BackgroundOverlay");
             // e.removeComponent("Pickup", false);
             e.removeComponent("Pickup");
@@ -408,7 +440,6 @@
             if(SFX) Crafty.audio.play("fork", 1, 0.5);
 
             this.disableControls();
-
 
             Crafty.e("2D, DOM, Portal, SpriteAnimation").animate("portal", 0, 0, 10).animate("portal", 5, 0).attr({
                 x: this.x - 48,
@@ -429,13 +460,12 @@
 
             function blinkRepeatedly() {
                 var i = 0;
-                for(; i < 10; i += 2) {
+                for(; i<15; i+=2) {
                     setTimeout(colorBg, 50 * i);
-                    setTimeout(revertBg, 50 * (i + 1));
+                    setTimeout(revertBg, 50 * (i+1));
                 }
             }
             blinkRepeatedly();
-
 
             octocat.tween({
                 alpha: 0
@@ -547,16 +577,17 @@
             isDead = false;
         }
 
-        Crafty.scene("main", function () {
+        Crafty.scene("main", function mainScene() {
             initState();
 
-            var bg = Crafty.e("2D, DOM, Image, Background").attr({
+            var bg = Crafty.e("2D, Canvas, Image, Background").attr({
                 x: 0,
                 y: 0,
                 z: -4,
                 w: Crafty.viewport.width,
-                h: Crafty.viewport.height
+            h: Crafty.viewport.height
             }).image("assets/images/bg.png", "repeat");
+            // }).image(R.BG_PNG, "repeat");
 
             var bgovr = Crafty.e("2D, DOM, BackgroundOverlay, Color, Delay").attr({
                 x: 0,
@@ -612,6 +643,7 @@
             clone.bind("EnterFrame", updateClone);
 
 
+            // (function (bg, bgovr, viewport) {
 
             function scrollViewport(e) {
                 // if(isDead) {
@@ -626,8 +658,8 @@
                 // Crafty("Background").y -= (.5 * SCROLL_SPEED / dt);
             }
             Crafty.bind("EnterFrame", scrollViewport);
-
-            Crafty.bind("Pause", function () {
+            // })(bg, bgovr, Crafty.viewport);
+            Crafty.bind("Pause", function onPause() {
                 // Crafty.audio.mute();
                 Crafty("BackgroundOverlay").color("#000000");
                 Crafty("BackgroundOverlay").alpha = 0.5;
@@ -645,7 +677,7 @@
                 }).text("Paused");
                 Crafty.DrawManager.draw();
             });
-            Crafty.bind("Unpause", function () {
+            Crafty.bind("Unpause", function onUnpause() {
                 // Crafty.audio.unmute();
                 Crafty("BackgroundOverlay").color("#006064");
                 Crafty("BackgroundOverlay").alpha = 0.2;
@@ -653,19 +685,19 @@
                 Crafty.DrawManager.draw();
             });
 
-            (function () {
+            (function (vp) {
                 var _pvy = Crafty.viewport.y,
                     _dvy = 0;
 
                 function recyclePlatforms(e) {
-                    _dvy += Crafty.viewport.y - _pvy;
-                    _pvy = Crafty.viewport.y;
+                    _dvy += vp.y - _pvy;
+                    _pvy = vp.y;
                     if(_dvy > 20) {
                         // if(_dvy > 20 && e.frame % 25 === 0) {
                         Crafty("Platform").each(function (i) {
                             _dvy = 0;
                             var p = this;
-                            if(Crafty.viewport.y + this.y > Crafty.viewport.height) {
+                            if(vp.y + this.y > vp.height) {
                                 // this.y = -Crafty.viewport.y - this.y - i * 100 * (++j);
                                 var d = level_data[n++];
                                 this.unbind("TweenEnd");
@@ -730,15 +762,15 @@
                     }
                 }
                 Crafty.bind("EnterFrame", recyclePlatforms);
-            })();
+            })(Crafty.viewport);
 
-            (function () {
+            (function (vp) {
                 function updateOctocat(e) {
-
+                    var y = this.y;
                     // this.animate('walk', 5, - 1);
                     // Crafty.viewport.scroll('y', Crafty.viewport.height/2 - octocat.y);
                     // isDead = Crafty.viewport.y + this.y > Crafty.canvas._canvas.height;
-                    isDead = this._enabled && (Crafty.viewport.y + this.y > Crafty.viewport.height);
+                    isDead = this._enabled && (vp.y + y > vp.height);
                     if(isDead) {
                         // Crafty.scene('dead');
                         Crafty.audio.play('dead', 1, 0.2);
@@ -750,28 +782,27 @@
                         return;
                     }
 
-                    if(this._oldpos.y > this.y) {
-                        this._oldpos.y = this.y;
-                        if(this._enabled) Crafty.viewport.y = Math.max(Crafty.viewport.y, Crafty.viewport.height / 2 - octocat.y - 200);
+                    if(this._oldpos.y > y) {
+                        this._oldpos.y = y;
+                        if(this._enabled) vp.y = Math.max(vp.y, vp.height / 2 - y - 200);
                     }
                 }
                 octocat.bind("EnterFrame", updateOctocat);
-            })();
+            })(Crafty.viewport);
 
             // Create the Platform pool, these entities will be recycled throughout the level
             (function initPlatformPool() {
-                var i;
+                var i, css = {
+                    'border': '2px solid rgba(0, 0, 0, .2)',
+                    'borderRadius': '8px',
+                    'boxShadow': '0px 8px 8px rgba(0,0,0,.2)'
+                };
                 for(i in level_data.slice(1, 10)) {
-                    var attr = level_data[i];
-                    var p = Crafty.e("2D, DOM, Color, Platform, Collision, Tween, Delay").attr(attr)
+                    Crafty.e("2D, DOM, Color, Platform, Collision, Tween, Delay").attr(level_data[i])
                     // .color("#c2aa48")
                     .color("#888")
                     // .collision(new Crafty.polygon([0, 0], [attr.w, 0], [attr.w, attr.h], [0, attr.h]))
-                    .collision().css({
-                        'border': '2px solid rgba(0, 0, 0, .2)',
-                        'borderRadius': '8px',
-                        'boxShadow': '0px 8px 8px rgba(0,0,0,.2)'
-                    });
+                    .collision().css(css);
 
                     // if (0 === i % (10 + ~~ (Math.random() * 10))) {
                     //     // var e = Crafty.e("2D, DOM, Color, Pickup, Tween, Delay").attr({x: p.x + (100-24)/2, y: p.y - 24, w:24, h:24}).color("#FF00FF");
@@ -829,7 +860,7 @@
             function toggleSFX(e) {
                 if(e.mouseButton !== Crafty.mouseButtons.LEFT) return;
                 SFX = !SFX;
-                Crafty("Speaker").image('assets/images/' + (SFX ? 'speaker.png' : 'mute.png'));
+                Crafty("SFX").image('assets/images/' + (SFX ? 'speaker.png' : 'mute.png'));
             }
 
             function updateSpeaker() {
@@ -837,10 +868,15 @@
                 this.y = -Crafty.viewport.y + 10;
 
             }
-            Crafty.e("2D, DOM, Speaker, Image, Mouse").attr({
-                z: 9999,
-                mute: false
-            }).css('cursor', 'pointer').image("assets/images/speaker.png").bind("EnterFrame", updateSpeaker).bind('MouseOver', function () {
+            Crafty.e("2D, DOM, SFX, Image, Mouse").attr({
+                x: Crafty.viewport.width - 64,
+                y: -Crafty.viewport.y + 10,
+                w: 48,
+                h: 48,
+                z: 9999
+            }).css('cursor', 'pointer').image("assets/images/speaker.png").bind("EnterFrame", updateSpeaker)
+            // .areaMap([0,0], [50,0], [50,50], [0,50])
+            .bind('MouseOver', function () {
                 this.alpha = 0.8;
                 this.bind('MouseDown', toggleSFX);
             }).bind('MouseOut', function () {
@@ -887,15 +923,19 @@
                 $("#loader").remove();
 
 
+                // Crafty.sprite(96, R.OCTOCAT_PNG, {
                 Crafty.sprite(96, "assets/images/octocat.png", {
+                // Crafty.sprite(96, "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYAAAABgBAMAAADm2ri6AAAAG1BMVEUo6Ns3NzdAQEBcXFzDV07zu57/yq/i4uL///+iSnSMAAAAAXRSTlMAQObYZgAAAbtJREFUeNrtmtFOgzAUhts9AZ1ZvB34BMorEO+9qPEBtPHWqz2BC48t5VQoY7KSqOdU/z9kY+Nru28ppaEohSAIgiAIgsTRJqTIk4cAL9/R2yqkTCgjjYcAK089rYpC3+TCQ4Bf4Kqu76pJbur61uTCQ0CCQDXLcgOieAjwC2yrMylNLjwEmHlt4qtdfBU8P4WSxkNAiEBpbBTqhUsNyOEhIEPA7Gzbtq5Pt2MfzHIDgngISBDoOtxT2zRNe3Tutd95993uywZE8RCAAAT+hEDghgJHt9yAIB4CjPzGz5DoXqR9dPGVz71Yuhfpib1UHgLcPO2FJZCd9exz09z7927yRFNwqlcmDwF2gdDt9p+LIlSGaFoO2cRnjEgeAtz8+FmbSYqxxl/mw9E0HgLsAidLs3FUwuL+9/PaHN78trZ+CHAJhANRhxv2kx5Fusjr2e+4yBfKXB9SeQiwC3Qobf1QFQoUKqmBBH51/bF2Cg8BboGxh+lUARrmEvmhE6fWf/JPQUC+wPoC42TrR38QBHITmA9byw/LSuMhwMxrMxnvhtdceAiwC8Tjo0o4Y0TyEGAXQBAEQRAE+Tf5AOPSFLJkyU14AAAAAElFTkSuQmCC", {
                     Octocat: [0, 0]
                 });
 
+                // Crafty.sprite(64, R.SMOKE_JUMP_PNG, {
                 Crafty.sprite(64, "assets/images/smoke_jump.png", {
                     SmokeJump: [0, 0]
                 });
 
                 Crafty.sprite(192, "assets/images/portal.png", {
+                // Crafty.sprite(192, R.PORTAL_PNG, {
                     Portal: [0, 0]
                 });
 
@@ -909,26 +949,43 @@
                     click: ["click.mp3", "click.ogg", "click.wav"].map(sndPath)
                 });
 
-                setTimeout(function () {
-                    Crafty.scene("intro");
-                }, 500);
-                // Crafty.scene("main");
+                // setTimeout(function () {
+                //     Crafty.scene("intro");
+                // }, 500);
+                Crafty.scene("intro");
             });
         });
 
         Crafty.scene("intro", function initIntro() {
             Crafty.background("#fff");
 
+            var txt = Crafty.e("2D, DOM, Text, Delay").attr({
+                x: 4,
+                y: Crafty.viewport.height - 16,
+                w: Crafty.viewport.width,
+                alpha: 0
+            }).css({
+                "font": "10px Verdana, Arial",
+                "color": "#888",
+                "text-align": "center"
+            }).text('Press ESC to skip intro');
+            txt.bind("EnterFrame", function (e) {
+                var f = e.frame % 100;
+                this.alpha = ~~ (f < 50);
+            });
             Crafty.e('Keyboard').bind('KeyDown', function (e) {
                 if(e.keyCode !== Crafty.keys.ESC) return;
                 this.destroy();
                 Crafty.scene("main");
             });
+
+            //TODO: un-nest this crap
             Crafty.e("2D, Canvas, Image, Tween, Delay").attr({
                 x: (400 - 174) / 2,
                 y: (640 - 174) / 2,
                 alpha: 0
             }).image('assets/images/github_logo.png').tween({
+            // }).image(R.GITHUB_LOGO_PNG).tween({
                 alpha: 1
             }, 50).bind("TweenEnd", function () {
                 this.unbind("TweenEnd");
@@ -941,6 +998,7 @@
                             x: (400 - 147) / 2,
                             y: (640 - 120) / 2,
                             alpha: 0
+                        // }).image(R.CRATFY_LOGO_PNG).tween({
                         }).image('assets/images/cratfy_logo.png').tween({
                             alpha: 1
                         }, 50).bind("TweenEnd", function () {
@@ -949,13 +1007,16 @@
                                 this.tween({
                                     alpha: 0
                                 }, 50).bind("TweenEnd", function () {
-
                                     Crafty.e("2D, Canvas, Image, Tween, Keyboard").attr({
                                         alpha: 0
+                                    // }).image(R.TITLE_PNG).tween({
                                     }).image('assets/images/title.png').tween({
                                         alpha: 1
-                                    }, 100).bind("KeyDown", function () {
-                                        Crafty.scene("main");
+                                    }, 100).bind("TweenEnd", function () {
+                                        txt.text('Press any key to start the game').css('color', '#fff');
+                                        this.bind("KeyDown", function () {
+                                            Crafty.scene("main");
+                                        });
                                     });
 
                                     // setTimeout(function () {
