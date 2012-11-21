@@ -1,6 +1,9 @@
 Octocat Jump
 ============
 
+<img src="http://imgur.com/EFb3q" style="border:0;">
+<img src="http://imgur.com/evNAi" style="border:0;">
+
 About
 -----
 A Doodle Jump clone for the **Github Game Off 2012**.
