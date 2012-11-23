@@ -1,6 +1,8 @@
 Octocat Jump
 ============
 
+Playable on the [gh-pages branch](http://ogoshen.github.com/game-off-2012/)
+
 <img src="http://i.imgur.com/rCRrx.png" style="border:0;">
 <img src="http://i.imgur.com/QOGtr.png" style="border:0;">
 
