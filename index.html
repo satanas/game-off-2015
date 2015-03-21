@@ -101,12 +101,25 @@
     #scoreboard td:first-child {
       border-right: 1px solid gray;
     }
+
+    #game {
+      width: 400px;
+      height: 640px;
+      border:1px solid #999;
+      margin:50px auto;
+      color:white;
+      -webkit-box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, .5);
+      box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, .5);
+    }
   </style>
 </head>
 <body>
-  <div id="loader"></div>
-  <script type="text/javascript" src="jquery.js"></script>
-  <script type="text/javascript" src="crafty.js"></script>
-  <script type="text/javascript" src="octocatjump.js"></script>
+  <div id="game"></div>
+  <script type="text/javascript" src="phaser.js"></script>
+  <script type="text/javascript" src="text.js"></script>
+  <script type="text/javascript" src="boot.js"></script>
+  <script type="text/javascript" src="load.js"></script>
+  <script type="text/javascript" src="menu.js"></script>
+  <script type="text/javascript" src="game.js"></script>
 </body>
 </html>
