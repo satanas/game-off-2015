@@ -4,11 +4,14 @@ var playState = {
   create: function() {
     this.player = null;
     this.sceneDelay = 500;
+    this.blockDelay = 3500;
+    this.elapsed = 3500;
     this.muted = false;
     game.sound.stopAll();
 
     game.global.time = 0;
 
+    groups.blocks = game.add.group();
     groups.hud = game.add.group();
 
     this.player = new Octocat(100, 400);
@@ -34,6 +37,11 @@ var playState = {
   },
 
   update: function() {
+    this.elapsed += game.time.elapsed;
+    if (this.elapsed >= this.blockDelay) {
+      this.elapsed = 0;
+      var block = new Block();
+    }
     //this.hud.update();
     //game.global.time += game.time.elapsed;
     //if (groups.viruses.length === 0) {

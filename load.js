@@ -25,6 +25,7 @@ var loadState = {
 
     // Spritesheets
     game.load.spritesheet('octocat', 'assets/images/octocat.png', 80, 80);
+    game.load.spritesheet('blocks', 'assets/images/blocks.png', 40, 40);
     //game.load.spritesheet('capsules', 'assets/images/capsules.png', 32, 32);
     //game.load.spritesheet('viruses', 'assets/images/viruses.png', 32, 32);
     //game.load.spritesheet('changers', 'assets/images/changers.png', 32, 32);
