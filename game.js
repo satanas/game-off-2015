@@ -1,7 +1,9 @@
 'use strict';
 
 var game = new Phaser.Game(400, 640, Phaser.AUTO, 'game');
-game.global = {}
+game.global = {
+  blockDelay: 500,
+}
 var debug = false;
 var groups = {};
 
