@@ -38,6 +38,9 @@ Octocat.prototype.onCollision = function(self, block) {
 };
 
 Octocat.prototype.checkCollision = function(self, block) {
-  console.log(block.y, self.y);
   return true;
+};
+
+Octocat.prototype.updateHeight = function(floor) {
+  this.y = floor.getHeight() - 67;
 };

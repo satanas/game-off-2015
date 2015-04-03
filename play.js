@@ -45,11 +45,14 @@ var playState = {
       var block = new Block();
     }
 
-    var player = this.player;
+    var self = this;
     groups.blocks.forEach(function(block) {
-      if (game.physics.arcade.intersects(player.body, block.body)) {
+      if (game.physics.arcade.intersects(self.player.body, block.body)) {
         block.kill();
-        console.log('block taken');
+      }
+
+      if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
+        self.floor.addBlock(block, self.player);
       }
     });
     //this.hud.update();
