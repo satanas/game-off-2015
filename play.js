@@ -13,8 +13,10 @@ var playState = {
 
     groups.blocks = game.add.group();
     groups.hud = game.add.group();
+    groups.floor = game.add.group();
 
     this.player = new Octocat(100, 400);
+    this.floor = new Floor();
 
     //Ingame menu shortcuts
     //this.quitKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -37,11 +39,19 @@ var playState = {
   },
 
   update: function() {
-    this.elapsed += game.time.elapsed;
+    this.elapsed += game.time.elapsedMS;
     if (this.elapsed >= this.blockDelay) {
       this.elapsed = 0;
       var block = new Block();
     }
+
+    var player = this.player;
+    groups.blocks.forEach(function(block) {
+      if (game.physics.arcade.intersects(player.body, block.body)) {
+        block.kill();
+        console.log('block taken');
+      }
+    });
     //this.hud.update();
     //game.global.time += game.time.elapsed;
     //if (groups.viruses.length === 0) {

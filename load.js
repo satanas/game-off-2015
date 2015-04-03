@@ -14,7 +14,7 @@ var loadState = {
 
     // Sprites
     game.load.image('title', 'assets/images/title.png');
-    //game.load.image('walls', 'assets/images/walls.png');
+    game.load.image('floor', 'assets/images/floor.png');
     //game.load.image('grounds', 'assets/images/grounds.png');
     //game.load.image('summary', 'assets/images/summary.png');
     //game.load.image('menu', 'assets/images/menu.png');

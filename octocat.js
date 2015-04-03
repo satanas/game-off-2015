@@ -23,10 +23,21 @@ Octocat.prototype = Object.create(Phaser.Sprite.prototype);
 Octocat.prototype.constructor = Octocat;
 
 Octocat.prototype.update = function() {
+  game.physics.arcade.collide(this, groups.floor);
+
   this.body.velocity.x = 0;
   if (this.cursors.left.isDown) {
     this.body.velocity.x = -300;
   } else if (this.cursors.right.isDown) {
     this.body.velocity.x = 300;
   }
+};
+
+Octocat.prototype.onCollision = function(self, block) {
+  block.destroy();
+};
+
+Octocat.prototype.checkCollision = function(self, block) {
+  console.log(block.y, self.y);
+  return true;
 };
