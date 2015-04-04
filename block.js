@@ -31,8 +31,9 @@ Block.prototype.update = function() {
 
 Block.prototype.settle = function(x, y) {
   this.x = x;
-  this.y = y;
   this.falling = false;
+  var tween = game.add.tween(this);
+  tween.to({y: y}, 200, Phaser.Easing.Linear.None, true);
 };
 
 Block.prototype.displace = function() {
