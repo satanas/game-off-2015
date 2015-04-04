@@ -3,7 +3,7 @@
 var Floor = function() {
   this.h = 40;
   this.lines = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [null, null, null, null, null, null, null, null, null, null]
   ];
 
   this.sprite = game.add.sprite(0, 580, 'floor');
@@ -26,49 +26,58 @@ Floor.prototype.addBlock = function(block, player) {
   var index = null,
       position = block.x / 40;
 
-  for (var i=0; i<this.lines.length; i++) {
-    if (this.lines[i][position] === 0) {
+  for (var i = 0; i < this.lines.length; i++) {
+    if (this.lines[i][position] === null) {
       index = i;
       break;
     }
   }
 
   if (index === null) {
-    this.lines.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    this.lines.push([null, null, null, null, null, null, null, null, null, null]);
     index = this.lines.length - 1;
     this.sprite.y = this.getHeight();
     player.updateHeight(this);
   }
 
   block.settle(block.x, 640 - (40 * (index + 1)));
-  this.lines[index][position] = 1;
-  this.checkDeploy(index);
+  this.lines[index][position] = block;
+  console.log('settle', index, position, this.lines);
+  this.checkDeploy(index, player);
 };
 
-Floor.prototype.checkDeploy = function(line) {
+Floor.prototype.checkDeploy = function(line, player) {
   var deploy = true,
       self = this;
 
-  for (var i=0; i<10; i++) {
-    if (this.lines[line][i] === 0) {
+  for (var i = 0; i < 10; i++) {
+    if (this.lines[line][i] === null) {
       deploy = false;
       break;
     }
   }
 
   if (deploy) {
-    // displace blocks
     console.log('deploy', line);
-    groups.blocks.forEach(function(block) {
-      if (block.y === self.getLineHeight(line)) {
-        block.kill();
-      }
-    });
+    // remove blocks
+    for (var i = 0; i < 10; i++) {
+      this.lines[line][i].kill();
+    }
 
-    //groups.blocks.forEach(function(block) {
-    //  if (block.y > self.getLineHeight(line)) {
-    //    block.y = block.y + 40;
-    //  }
-    //});
+    // displace blocks
+    for (var j = line; j < this.lines.length - 1; j++) {
+      console.log('displacing line', j);
+      for (var i = 0; i < 10; i++) {
+        this.lines[j][i] = this.lines[j + 1][i];
+        if (this.lines[j][i] !== null) {
+          this.lines[j][i].displace();
+        }
+      }
+    }
+
+    // remove last line
+    this.lines.pop();
+    this.sprite.y = this.getHeight();
+    player.updateHeight(this);
   }
 };

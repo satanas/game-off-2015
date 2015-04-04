@@ -4,7 +4,7 @@ var playState = {
   create: function() {
     this.player = null;
     this.sceneDelay = 500;
-    this.blockDelay = 3500;
+    this.blockDelay = 2500;
     this.elapsed = 3500;
     this.muted = false;
     game.sound.stopAll();

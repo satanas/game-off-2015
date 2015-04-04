@@ -34,3 +34,7 @@ Block.prototype.settle = function(x, y) {
   this.y = y;
   this.falling = false;
 };
+
+Block.prototype.displace = function() {
+  this.y += 40;
+};
