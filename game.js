@@ -6,6 +6,15 @@ game.global = {
 }
 var debug = false;
 var groups = {};
+var codeType = {
+  RB: 0,
+  JS: 1,
+  JAVA: 2,
+  PY: 3,
+  HTML: 4,
+  BLE: 5,
+  BUG: 6
+};
 
 game.state.add('boot', bootState);
 game.state.add('load', loadState);

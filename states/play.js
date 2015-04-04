@@ -52,6 +52,7 @@ var playState = {
       }
 
       if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
+        block.addBug();
         self.floor.addBlock(block, self.player);
       }
     });

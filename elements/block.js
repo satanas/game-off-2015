@@ -39,3 +39,8 @@ Block.prototype.settle = function(x, y) {
 Block.prototype.displace = function() {
   this.y += 40;
 };
+
+Block.prototype.addBug = function() {
+  this.language = codeType.BUG;
+  this.frame = 6;
+};
