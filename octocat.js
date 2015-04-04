@@ -25,11 +25,31 @@ Octocat.prototype.constructor = Octocat;
 Octocat.prototype.update = function() {
   game.physics.arcade.collide(this, groups.floor);
 
-  this.body.velocity.x = 0;
-  if (this.cursors.left.isDown) {
-    this.body.velocity.x = -300;
-  } else if (this.cursors.right.isDown) {
-    this.body.velocity.x = 300;
+  //this.body.velocity.x = 0;
+  //if (this.cursors.left.isDown) {
+  //  this.body.velocity.x = -300;
+  //} else if (this.cursors.right.isDown) {
+  //  this.body.velocity.x = 300;
+  //}
+
+  var tween = null;
+
+  if (!this.walking) {
+    if (this.cursors.left.isDown) {
+      this.walking = true;
+      tween = game.add.tween(this);
+      tween.to({x: this.x - 40}, 200, Phaser.Easing.Linear.None, true);
+    } else if (this.cursors.right.isDown) {
+      this.walking = true;
+      tween = game.add.tween(this);
+      tween.to({x: this.x + 40}, 200, Phaser.Easing.Linear.None, true);
+    }
+
+    if (tween) {
+      tween.onComplete.add(function(){
+        this.walking = false;
+      }, this);
+    }
   }
 };
 
