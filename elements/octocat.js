@@ -34,41 +34,39 @@ Octocat.prototype.update = function() {
   //  this.body.velocity.x = 300;
   //}
 
-  var tween = null;
-
   if (!this.walking) {
+    var newX = null, blockX = null;
+
     if (this.cursors.left.isDown) {
-      this.walking = true;
-      tween = game.add.tween(this);
-      tween.to({x: this.x - 40}, 100, Phaser.Easing.Linear.None, true);
-      if (this.block) {
-        var tween2 = game.add.tween(this.block);
-        tween2.to({x: this.x - 20}, 100, Phaser.Easing.Linear.None, true);
+      if (this.x > 0) {
+        newX = this.x - 40;
+        blockX = this.x - 20;
       }
     } else if (this.cursors.right.isDown) {
-      this.walking = true;
-      tween = game.add.tween(this);
-      tween.to({x: this.x + 40}, 100, Phaser.Easing.Linear.None, true);
-      if (this.block) {
-        var tween2 = game.add.tween(this.block);
-        tween2.to({x: this.x + 60}, 100, Phaser.Easing.Linear.None, true);
+      if (this.x + 40 < 380) {
+        newX = this.x + 40;
+        blockX = this.x + 60;
       }
     }
 
-    if (tween) {
-      tween.onComplete.add(function(){
-        this.walking = false;
-      }, this);
+    if (newX !== null) {
+      this.move(newX, blockX);
     }
   }
 };
 
-Octocat.prototype.onCollision = function(self, block) {
-  block.destroy();
-};
+Octocat.prototype.move = function(newX, blockX) {
+  this.walking = true;
+  var tween = game.add.tween(this);
+  tween.to({x: newX}, 100, Phaser.Easing.Linear.None, true);
+  if (this.block) {
+    var tween2 = game.add.tween(this.block);
+    tween2.to({x: blockX}, 100, Phaser.Easing.Linear.None, true);
+  }
 
-Octocat.prototype.checkCollision = function(self, block) {
-  return true;
+  tween.onComplete.add(function(){
+    this.walking = false;
+  }, this);
 };
 
 Octocat.prototype.updateHeight = function(floor) {
