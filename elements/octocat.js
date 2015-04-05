@@ -1,12 +1,14 @@
 'use strict';
 
-var Octocat = function(x, y) {
+var Octocat = function(x, y, floor) {
   Phaser.Sprite.call(this, game, x, y, 'octocat', 0);
 
+  this.floor = floor;
   game.physics.arcade.enable(this);
   this.body.gravity.y = 1000;
   this.body.collideWorldBounds = true;
   this.body.setSize(40, 56, 20, 13);
+  this.block = null;
   //this.body.maxVelocity.y = 500;
   //this.body.maxVelocity.x = 200;
 
@@ -38,11 +40,19 @@ Octocat.prototype.update = function() {
     if (this.cursors.left.isDown) {
       this.walking = true;
       tween = game.add.tween(this);
-      tween.to({x: this.x - 40}, 200, Phaser.Easing.Linear.None, true);
+      tween.to({x: this.x - 40}, 100, Phaser.Easing.Linear.None, true);
+      if (this.block) {
+        var tween2 = game.add.tween(this.block);
+        tween2.to({x: this.x - 20}, 100, Phaser.Easing.Linear.None, true);
+      }
     } else if (this.cursors.right.isDown) {
       this.walking = true;
       tween = game.add.tween(this);
-      tween.to({x: this.x + 40}, 200, Phaser.Easing.Linear.None, true);
+      tween.to({x: this.x + 40}, 100, Phaser.Easing.Linear.None, true);
+      if (this.block) {
+        var tween2 = game.add.tween(this.block);
+        tween2.to({x: this.x + 60}, 100, Phaser.Easing.Linear.None, true);
+      }
     }
 
     if (tween) {
@@ -64,3 +74,16 @@ Octocat.prototype.checkCollision = function(self, block) {
 Octocat.prototype.updateHeight = function(floor) {
   this.y = floor.getHeight() - 67;
 };
+
+Octocat.prototype.takeBlock = function(block) {
+  this.block = block;
+  this.block.falling = false;
+  this.block.y = this.y + 12;
+  this.block.x = this.body.x;
+};
+
+Octocat.prototype.dropBlock = function() {
+  var b = this.block;
+  this.block = null;
+  return b;
+}

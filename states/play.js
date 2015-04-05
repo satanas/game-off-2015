@@ -48,7 +48,7 @@ var playState = {
     var self = this;
     groups.blocks.forEach(function(block) {
       if (game.physics.arcade.intersects(self.player.body, block.body)) {
-        block.kill();
+        self.player.takeBlock(block);
       }
 
       if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
@@ -56,6 +56,15 @@ var playState = {
         self.floor.addBlock(block, self.player);
       }
     });
+
+    if (this.player.cursors.down.isDown) {
+      var block = this.player.dropBlock();
+      if (block !== null) {
+        block.y = this.floor.sprite.y + 20;
+        this.floor.addBlock(block, this.player);
+        console.log('drop block', block);
+      }
+    }
     //this.hud.update();
     //game.global.time += game.time.elapsed;
     //if (groups.viruses.length === 0) {

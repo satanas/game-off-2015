@@ -42,7 +42,7 @@ Floor.prototype.addBlock = function(block, player) {
 
   block.settle(block.x, 640 - (40 * (index + 1)));
   this.lines[index][position] = block;
-  console.log('settle', index, position, block);
+  console.log('settle', index, position);
   this.checkDeploy(index, player);
 };
 
