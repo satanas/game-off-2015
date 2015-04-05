@@ -4,7 +4,7 @@ var playState = {
   create: function() {
     this.player = null;
     this.sceneDelay = 500;
-    this.blockDelay = 2500;
+    this.blockDelay = 3500;
     this.elapsed = 3500;
     this.muted = false;
     game.sound.stopAll();
@@ -48,7 +48,13 @@ var playState = {
     var self = this;
     groups.blocks.forEach(function(block) {
       if (game.physics.arcade.intersects(self.player.body, block.body)) {
-        self.player.takeBlock(block);
+        if (block.falling) {
+          // drop block if exist
+          if (self.player.block) {
+            self.dropBlock(true);
+          }
+          self.player.takeBlock(block);
+        }
       }
 
       if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
@@ -58,12 +64,7 @@ var playState = {
     });
 
     if (this.player.cursors.down.isDown) {
-      var block = this.player.dropBlock();
-      if (block !== null) {
-        block.y = this.floor.sprite.y + 20;
-        this.floor.addBlock(block, this.player);
-        console.log('drop block', block);
-      }
+      this.dropBlock();
     }
     //this.hud.update();
     //game.global.time += game.time.elapsed;
@@ -77,6 +78,17 @@ var playState = {
     //    }
     //  }
     //}
+  },
+
+  dropBlock: function(bug) {
+    var block = this.player.dropBlock();
+    if (bug) {
+      block.addBug();
+    }
+    if (block !== null) {
+      block.y = this.floor.sprite.y + 20;
+      this.floor.addBlock(block, this.player);
+    }
   },
 
   pauseUpdate: function() {
