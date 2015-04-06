@@ -76,6 +76,7 @@ Floor.prototype.checkDeploy = function(line, player) {
     } else {
       console.log('deploy', 'score:', score);
     }
+    game.global.score += score;
 
     // displace blocks
     for (var j = line; j < this.lines.length - 1; j++) {
