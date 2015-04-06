@@ -9,7 +9,6 @@ var Application = function() {
 Application.prototype.constructor = Application;
 
 Application.prototype.build = function() {
-  console.log('  building', this.value);
   if (this.value === 1) {
     this.name = 'Pure Ruby';
     this.bonus = singleBonus;
@@ -67,30 +66,24 @@ Application.prototype.addCode = function(block) {
 
 Application.prototype.addRuby = function() {
   this.value = this.value | 1;
-  console.log('  add code', this.value);
 };
 
 Application.prototype.addJavascript = function() {
   this.value = this.value | 2;
-  console.log('  add code', this.value);
 };
 
 Application.prototype.addJava = function() {
   this.value = this.value | 4;
-  console.log('  add code', this.value);
 };
 
 Application.prototype.addPython = function() {
   this.value = this.value | 8;
-  console.log('  add code', this.value);
 };
 
 Application.prototype.addHTML = function() {
   this.value = this.value | 16;
-  console.log('  add code', this.value);
 };
 
 Application.prototype.addPHP = function() {
   this.value = this.value | 32;
-  console.log('  add code', this.value);
 };
