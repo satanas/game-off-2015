@@ -15,21 +15,11 @@ var loadState = {
     // Sprites
     game.load.image('title', 'assets/images/title.png');
     game.load.image('floor', 'assets/images/floor.png');
-    //game.load.image('grounds', 'assets/images/grounds.png');
-    //game.load.image('summary', 'assets/images/summary.png');
-    //game.load.image('menu', 'assets/images/menu.png');
-    //game.load.image('cursor', 'assets/images/cursor.png');
-    //game.load.image('hud', 'assets/images/hud.png');
-    //game.load.image('arrowleft', 'assets/images/arrow-left.png');
-    //game.load.image('arrowright', 'assets/images/arrow-right.png');
+    game.load.image('background', 'assets/images/background.png');
 
     // Spritesheets
     game.load.spritesheet('octocat', 'assets/images/octocat.png', 80, 80);
     game.load.spritesheet('blocks', 'assets/images/blocks.png', 40, 40);
-    //game.load.spritesheet('capsules', 'assets/images/capsules.png', 32, 32);
-    //game.load.spritesheet('viruses', 'assets/images/viruses.png', 32, 32);
-    //game.load.spritesheet('changers', 'assets/images/changers.png', 32, 32);
-    //game.load.spritesheet('transformation', 'assets/images/transformation.png', 32, 32);
 
     // Sounds
     //game.load.audio('capture', 'assets/sounds/capture.mp3');

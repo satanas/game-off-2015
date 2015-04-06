@@ -9,6 +9,7 @@ var playState = {
     this.muted = false;
     game.sound.stopAll();
 
+    game.add.image(0, 0, 'background');
     game.global.time = 0;
 
     groups.blocks = game.add.group();
