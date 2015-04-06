@@ -15,7 +15,9 @@ var Floor = function() {
 Floor.prototype.constructor = Floor;
 
 Floor.prototype.getHeight = function() {
-  return 640 - ((this.h * this.lines.length) + 20);
+  var height = 640 - ((this.h * this.lines.length) + 20);
+  if (height > 580) height = 580;
+  return height;
 };
 
 Floor.prototype.getLineHeight = function(line) {
@@ -42,7 +44,7 @@ Floor.prototype.addBlock = function(block, player) {
 
   block.settle(block.x, 640 - (40 * (index + 1)));
   this.lines[index][position] = block;
-  console.log('settle', index, position);
+  console.log('settle', index, position, block.language.name);
   this.checkDeploy(index, player);
 };
 
@@ -58,10 +60,21 @@ Floor.prototype.checkDeploy = function(line, player) {
   }
 
   if (deploy) {
-    console.log('deploy', line);
-    // remove blocks
+    // perform deploy and score
+    var app = new Application();
+    var score = 0;
     for (var i = 0; i < 10; i++) {
-      this.lines[line][i].kill();
+      var block = this.lines[line][i];
+      score += block.language.points;
+      app.addCode(block);
+      block.kill();
+    }
+    app.build();
+    score += app.bonus;
+    if (app.name !== null) {
+      console.log('deployed', app.name + ' app', 'score:', score, 'bonus:', app.bonus);
+    } else {
+      console.log('deploy', 'score:', score);
     }
 
     // displace blocks

@@ -4,9 +4,9 @@ var Block = function() {
   var x = Math.floor(Math.random() * 10) * 40;
 
   this.falling = true;
-  this.language = Math.floor(Math.random() * 6);
+  this.language = new Language();
   this.delay = game.global.blockDelay;
-  Phaser.Sprite.call(this, game, x, 0, 'blocks', this.language);
+  Phaser.Sprite.call(this, game, x, 0, 'blocks', this.language.index);
 
   game.physics.arcade.enable(this);
   groups.blocks.add(this);
@@ -41,6 +41,6 @@ Block.prototype.displace = function() {
 };
 
 Block.prototype.addBug = function() {
-  this.language = codeType.BUG;
+  this.language.addBug();
   this.frame = 6;
 };
