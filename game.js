@@ -7,7 +7,7 @@ game.global = {
 }
 var debug = false;
 var groups = {};
-var singleBonus = 300;
+var singleBonus = 600;
 var doubleBonus = 200;
 var bonusType = {
   'super': 1,
