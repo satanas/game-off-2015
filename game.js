@@ -9,6 +9,10 @@ var debug = false;
 var groups = {};
 var singleBonus = 300;
 var doubleBonus = 200;
+var bonusType = {
+  'super': 1,
+  'ultra': 2
+};
 
 game.state.add('boot', bootState);
 game.state.add('load', loadState);
