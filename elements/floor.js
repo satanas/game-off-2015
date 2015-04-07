@@ -26,7 +26,7 @@ Floor.prototype.getLineHeight = function(line) {
 
 Floor.prototype.addBlock = function(block, player) {
   var index = null,
-      position = block.x / 40;
+      position = Math.floor(block.x / 40);
 
   for (var i = 0; i < this.lines.length; i++) {
     if (this.lines[i][position] === null) {
@@ -46,6 +46,9 @@ Floor.prototype.addBlock = function(block, player) {
   this.lines[index][position] = block;
   console.log('settle', index, position, block.language.name);
   this.checkDeploy(index, player);
+
+  var appText = bitmapTextCentered(320, 'ultra', 'Pure Javascript', 20);
+  var scoreText = bitmapTextCentered(250, 'ultra', '100', 64);
 };
 
 Floor.prototype.checkDeploy = function(line, player) {
@@ -71,11 +74,24 @@ Floor.prototype.checkDeploy = function(line, player) {
     }
     app.build();
     score += app.bonus;
+
+    var font = 'regular',
+        sizePoints = 34,
+        sizeText = 20;
     if (app.name !== null) {
+      font = (app.bonusType === bonusType.super) ? 'super': 'ultra';
+      sizePoints = (app.bonusType === bonusType.super) ? 52 : 64;
       console.log('deployed', app.name + ' app', 'score:', score, 'bonus:', app.bonus);
-    } else {
-      console.log('deploy', 'score:', score);
+
+      var appText = bitmapTextCentered(320, font, app.name, sizeText);
+      var appTween = game.add.tween(appText);
+      appTween.to({y: 230, alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
     }
+
+    var scoreText = bitmapTextCentered(250, font, String(score), sizePoints);
+    var scoreTween = game.add.tween(scoreText);
+    scoreTween.to({y: 160, alpha: 0}, 1500, Phaser.Easing.Linear.None, true);
+
     game.global.score += score;
 
     // displace blocks
