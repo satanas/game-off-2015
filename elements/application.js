@@ -11,52 +11,40 @@ Application.prototype.constructor = Application;
 Application.prototype.build = function() {
   if (this.value === 1) {
     this.name = 'Pure Ruby';
-    this.bonus = singleBonus;
-    this.bonusType = bonusType.ultra;
+    this.bonus = game.global.bonus.ultra;
   } else if (this.value === 2) {
     this.name = 'Pure Javascript';
-    this.bonus = singleBonus;
-    this.bonusType = bonusType.ultra;
+    this.bonus = game.global.bonus.ultra;
   } else if (this.value === 4) {
     this.name = 'Pure Java';
-    this.bonus = singleBonus;
-    this.bonusType = bonusType.ultra;
+    this.bonus = game.global.bonus.ultra;
   } else if (this.value === 8) {
     this.name = 'Pure Python';
-    this.bonus = singleBonus;
-    this.bonusType = bonusType.ultra;
+    this.bonus = game.global.bonus.ultra;
   } else if (this.value === 32) {
     this.name = 'Pure PHP';
-    this.bonus = singleBonus;
-    this.bonusType = bonusType.ultra;
+    this.bonus = game.global.bonus.ultra;
   } else if (this.value === 5) {
     this.name = 'JRuby';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   } else if (this.value === 12) {
     this.name = 'Jython';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   } else if (this.value === 48) {
     this.name = 'PHP Web';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   } else if (this.value === 20) {
     this.name = 'JSP';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   } else if (this.value === 17) {
     this.name = 'Ruby on Rails';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   } else if (this.value === 24) {
     this.name = 'Django';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   } else if (this.value === 18) {
     this.name = 'Express';
-    this.bonus = doubleBonus;
-    this.bonusType = bonusType.super;
+    this.bonus = game.global.bonus.super;
   }
 };
 
