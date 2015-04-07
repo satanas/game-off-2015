@@ -9,8 +9,9 @@ var loadState = {
     game.load.setPreloadSprite(progressBar);
 
     // Fonts
-    //game.load.bitmapFont('zerothre', 'assets/fonts/zerothre.png', 'assets/fonts/zerothre.fnt');
-    //game.load.bitmapFont('record', 'assets/fonts/record.png', 'assets/fonts/record.fnt');
+    game.load.bitmapFont('regular', 'assets/fonts/press-start-regular.png', 'assets/fonts/press-start-regular.fnt');
+    game.load.bitmapFont('super', 'assets/fonts/press-start-super.png', 'assets/fonts/press-start-super.fnt');
+    game.load.bitmapFont('ultra', 'assets/fonts/press-start-ultra.png', 'assets/fonts/press-start-ultra.fnt');
 
     // Sprites
     game.load.image('title', 'assets/images/title.png');
