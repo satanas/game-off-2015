@@ -12,6 +12,7 @@ var loadState = {
     game.load.bitmapFont('regular', 'assets/fonts/press-start-regular.png', 'assets/fonts/press-start-regular.fnt');
     game.load.bitmapFont('super', 'assets/fonts/press-start-super.png', 'assets/fonts/press-start-super.fnt');
     game.load.bitmapFont('ultra', 'assets/fonts/press-start-ultra.png', 'assets/fonts/press-start-ultra.fnt');
+    game.load.bitmapFont('score', 'assets/fonts/press-start-score.png', 'assets/fonts/press-start-score.fnt');
 
     // Sprites
     game.load.image('title', 'assets/images/title.png');

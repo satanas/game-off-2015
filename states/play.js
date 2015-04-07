@@ -19,6 +19,7 @@ var playState = {
 
     this.player = new Octocat(100, 400);
     this.floor = new Floor();
+    this.hud = new HUD();
 
     //Ingame menu shortcuts
     //this.quitKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -41,6 +42,8 @@ var playState = {
   },
 
   update: function() {
+    this.hud.update();
+
     this.elapsed += game.time.elapsedMS;
     if (this.elapsed >= this.blockDelay) {
       this.elapsed = 0;
