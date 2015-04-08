@@ -2,7 +2,11 @@
 
 var game = new Phaser.Game(400, 640, Phaser.AUTO, 'game');
 game.global = {
-  blockDelay: 500,
+  block: {
+    spawn: 8000,
+    speed: 600
+  },
+  deploysToNextLevel: 2,
   bugsToRollback: 3,
   score: 0,
   bonus: {

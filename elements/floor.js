@@ -44,8 +44,7 @@ Floor.prototype.addBlock = function(block, player) {
 
   block.settle(block.x, 640 - (40 * (index + 1)));
   this.lines[index][position] = block;
-  console.log('settle', index, position, block.language.name);
-  this.checkDeploy(index, player);
+  return this.checkDeploy(index, player);
 };
 
 Floor.prototype.checkDeploy = function(line, player) {
@@ -86,8 +85,6 @@ Floor.prototype.checkDeploy = function(line, player) {
       } else if (app.bonus === game.global.bonus.rollback) {
         font = 'regular';
       }
-      //font = (app.bonus === game.global.bonus.super) ? 'super': 'ultra';
-      //sizePoints = (app.bonus === game.global.bonus.super) ? 52 : 72;
 
       var appText = bitmapTextCentered(320, font, app.name, sizeText);
       var appTween = game.add.tween(appText);
@@ -102,7 +99,6 @@ Floor.prototype.checkDeploy = function(line, player) {
 
     // displace blocks
     for (var j = line; j < this.lines.length - 1; j++) {
-      console.log('displacing line', j);
       for (var i = 0; i < 10; i++) {
         this.lines[j][i] = this.lines[j + 1][i];
         if (this.lines[j][i] !== null) {
@@ -116,4 +112,5 @@ Floor.prototype.checkDeploy = function(line, player) {
     this.sprite.y = this.getHeight();
     player.updateHeight(this);
   }
+  return deploy;
 };

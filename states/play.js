@@ -4,9 +4,12 @@ var playState = {
   create: function() {
     this.player = null;
     this.sceneDelay = 500;
-    this.blockDelay = 3500;
-    this.elapsed = 3500;
+    this.elapsed = game.global.block.spawn;
+    this.blockSpawnTime = game.global.block.spawn;
+    this.blockMoveTime = game.global.block.speed;
     this.muted = false;
+    this.level = 1;
+    this.deploys = 0;
     game.sound.stopAll();
 
     game.add.image(0, 0, 'background');
@@ -37,7 +40,6 @@ var playState = {
     //this.pauseKey.onUp.add(this.togglePause, this);
 
     //this.ingameMenu = new IngameMenu(this);
-    //this.hud = new HUD();
     //this.tutorial = new Tutorial(this.player);
   },
 
@@ -45,9 +47,9 @@ var playState = {
     this.hud.update();
 
     this.elapsed += game.time.elapsedMS;
-    if (this.elapsed >= this.blockDelay) {
+    if (this.elapsed >= this.blockSpawnTime) {
       this.elapsed = 0;
-      var block = new Block();
+      var block = new Block(this.blockMoveTime);
     }
 
     var self = this;
@@ -64,7 +66,17 @@ var playState = {
 
       if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
         block.addBug();
-        self.floor.addBlock(block, self.player);
+        var deployed = self.floor.addBlock(block, self.player);
+        if (deployed) {
+          this.deploys += 1;
+          if (this.deploys >= game.global.deploysToNextLevel) {
+            this.deploys = 0;
+            this.level += 1;
+            this.blockSpawnTime -= 500;
+            this.blockMoveTime -= 50;
+            console.log('level', this.level);
+          }
+        }
       }
     });
 

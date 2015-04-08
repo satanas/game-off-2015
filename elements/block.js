@@ -1,11 +1,16 @@
 'use strict';
 
-var Block = function() {
+var Block = function(delay) {
   var x = Math.floor(Math.random() * 10) * 40;
 
   this.falling = true;
   this.language = new Language();
-  this.delay = game.global.blockDelay;
+  this.moveDelay = delay;
+  if (delay) {
+    this.delay = delay;
+  } else {
+    this.delay = game.global.block.speed;
+  }
   Phaser.Sprite.call(this, game, x, 0, 'blocks', this.language.index);
 
   game.physics.arcade.enable(this);
@@ -20,7 +25,7 @@ Block.prototype.update = function() {
     this.delay -= game.time.elapsedMS;
     if (this.delay <= 0) {
       this.y += 40;
-      this.delay = game.global.blockDelay;
+      this.delay = this.moveDelay;
     }
   }
 
