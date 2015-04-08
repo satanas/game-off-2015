@@ -9,8 +9,6 @@ var Octocat = function(x, y, floor) {
   this.body.collideWorldBounds = true;
   this.body.setSize(40, 56, 20, 13);
   this.block = null;
-  //this.body.maxVelocity.y = 500;
-  //this.body.maxVelocity.x = 200;
 
   this.cursors = game.input.keyboard.createCursorKeys();
 
@@ -71,6 +69,9 @@ Octocat.prototype.move = function(newX, blockX) {
 
 Octocat.prototype.updateHeight = function(floor) {
   this.y = floor.getHeight() - 67;
+  if (this.block) {
+    this.block.y = this.y + 10;
+  }
 };
 
 Octocat.prototype.takeBlock = function(block) {
