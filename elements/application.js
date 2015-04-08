@@ -1,6 +1,7 @@
 'use strict';
 
 var Application = function() {
+  this.bugs = 0;
   this.value = 0;
   this.bonus = 0;
   this.name = null;
@@ -9,7 +10,10 @@ var Application = function() {
 Application.prototype.constructor = Application;
 
 Application.prototype.build = function() {
-  if (this.value === 1) {
+  if (this.bugs >= game.global.bugsToRollback) {
+    this.name = 'Too many bugs';
+    this.bonus = game.global.bonus.rollback;
+  } else if (this.value === 1) {
     this.name = 'Pure Ruby';
     this.bonus = game.global.bonus.ultra;
   } else if (this.value === 2) {
@@ -61,6 +65,8 @@ Application.prototype.addCode = function(block) {
     this.addHTML();
   } else if (block.language.isPHP()) {
     this.addPHP();
+  } else if (block.language.isBug()) {
+    this.addBug();
   }
 };
 
@@ -86,4 +92,8 @@ Application.prototype.addHTML = function() {
 
 Application.prototype.addPHP = function() {
   this.value = this.value | 32;
+};
+
+Application.prototype.addBug = function() {
+  this.bugs += 1;
 };

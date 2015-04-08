@@ -3,14 +3,12 @@
 var game = new Phaser.Game(400, 640, Phaser.AUTO, 'game');
 game.global = {
   blockDelay: 500,
+  bugsToRollback: 3,
   score: 0,
   bonus: {
     ultra: 600,
     super: 300,
-    type: {
-      'super': 1,
-      'ultra': 2
-    }
+    rollback: -200
   }
 }
 var debug = false;

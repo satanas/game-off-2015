@@ -61,8 +61,9 @@ Floor.prototype.checkDeploy = function(line, player) {
 
   if (deploy) {
     // perform deploy and score
-    var app = new Application();
+    var bugs = 0;
     var score = 0;
+    var app = new Application();
     for (var i = 0; i < 10; i++) {
       var block = this.lines[line][i];
       score += block.language.points;
@@ -76,9 +77,17 @@ Floor.prototype.checkDeploy = function(line, player) {
         sizePoints = 32,
         sizeText = 20;
     if (app.name !== null) {
-      font = (app.bonus === game.global.bonus.super) ? 'super': 'ultra';
-      sizePoints = (app.bonus === game.global.bonus.super) ? 52 : 72;
-      console.log('deployed', app.name + ' app', 'score:', score, 'bonus:', app.bonus);
+      if (app.bonus === game.global.bonus.super) {
+        font = 'super';
+        sizePoints = 52;
+      } else if (app.bonus === game.global.bonus.ultra) {
+        font = 'ultra';
+        sizePoints = 72;
+      } else if (app.bonus === game.global.bonus.rollback) {
+        font = 'regular';
+      }
+      //font = (app.bonus === game.global.bonus.super) ? 'super': 'ultra';
+      //sizePoints = (app.bonus === game.global.bonus.super) ? 52 : 72;
 
       var appText = bitmapTextCentered(320, font, app.name, sizeText);
       var appTween = game.add.tween(appText);
