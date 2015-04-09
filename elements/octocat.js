@@ -82,6 +82,8 @@ Octocat.prototype.takeBlock = function(block) {
 };
 
 Octocat.prototype.dropBlock = function() {
+  if (this.walking) return null;
+
   var b = this.block;
   this.block = null;
   return b;
