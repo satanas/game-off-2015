@@ -66,13 +66,13 @@ var playState = {
           block.addBug();
           var deployed = self.floor.addBlock(block, self.player);
           if (deployed) {
-            this.deploys += 1;
-            if (this.deploys >= game.global.deploysToNextLevel) {
-              this.deploys = 0;
-              this.level += 1;
-              this.blockSpawnTime -= 500;
-              this.blockMoveTime -= 50;
-              console.log('level', this.level);
+            self.deploys += 1;
+            if (self.deploys >= game.global.deploysToNextLevel) {
+              self.deploys = 0;
+              self.level += 1;
+              self.blockSpawnTime -= 500;
+              self.blockMoveTime -= 50;
+              console.log('level', self.level);
             }
           }
         }
@@ -99,10 +99,10 @@ var playState = {
 
   dropBlock: function(bug) {
     var block = this.player.dropBlock();
-    if (bug) {
-      block.addBug();
-    }
     if (block !== null) {
+      if (bug) {
+        block.addBug();
+      }
       block.y = this.floor.sprite.y + 20;
       this.floor.addBlock(block, this.player);
     }
