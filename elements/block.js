@@ -42,7 +42,8 @@ Block.prototype.settle = function(x, y) {
 };
 
 Block.prototype.displace = function() {
-  this.y += 40;
+  var tween = game.add.tween(this);
+  tween.to({y: this.y + 40}, 250, Phaser.Easing.Linear.None, true);
 };
 
 Block.prototype.addBug = function() {
