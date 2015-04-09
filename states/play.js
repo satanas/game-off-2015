@@ -7,9 +7,11 @@ var playState = {
     this.elapsed = game.global.block.spawn;
     this.blockSpawnTime = game.global.block.spawn;
     this.blockMoveTime = game.global.block.speed;
-    this.muted = false;
     this.level = 1;
+    this.muted = false;
+    this.paused = false;
     this.deploys = 0;
+    this.pauseText = null;
     game.sound.stopAll();
 
     game.add.image(0, 0, 'background');
@@ -25,19 +27,14 @@ var playState = {
     this.hud = new HUD();
 
     //Ingame menu shortcuts
+    this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
+    this.pauseKey.onUp.add(this.togglePause, this);
+
     //this.quitKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
     //this.quitKey.onUp.add(this.quitGame, this);
 
-    //this.restartKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
-    //this.restartKey.onUp.add(this.restartGame, this);
-
     //this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
     //this.muteKey.onUp.add(this.muteGame, this);
-
-    ////groups.walls.debug = true;
-    //this.pausedGame = false;
-    //this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-    //this.pauseKey.onUp.add(this.togglePause, this);
 
     //this.ingameMenu = new IngameMenu(this);
     //this.tutorial = new Tutorial(this.player);
@@ -45,56 +42,59 @@ var playState = {
 
   update: function() {
     this.hud.update();
-
     this.elapsed += game.time.elapsedMS;
-    if (this.elapsed >= this.blockSpawnTime) {
-      this.elapsed = 0;
-      var block = new Block(this.blockMoveTime);
-    }
 
-    var self = this;
-    groups.blocks.forEach(function(block) {
-      if (game.physics.arcade.intersects(self.player.body, block.body)) {
-        if (block.falling) {
-          // drop block if exist
-          if (self.player.block) {
-            self.dropBlock(true);
-          }
-          self.player.takeBlock(block);
-        }
+    if (this.player.alive && !this.paused) {
+      if (this.elapsed >= this.blockSpawnTime) {
+        this.elapsed = 0;
+        var block = new Block(this.blockMoveTime);
       }
 
-      if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
-        block.addBug();
-        var deployed = self.floor.addBlock(block, self.player);
-        if (deployed) {
-          this.deploys += 1;
-          if (this.deploys >= game.global.deploysToNextLevel) {
-            this.deploys = 0;
-            this.level += 1;
-            this.blockSpawnTime -= 500;
-            this.blockMoveTime -= 50;
-            console.log('level', this.level);
+      var self = this;
+      groups.blocks.forEach(function(block) {
+        if (game.physics.arcade.intersects(self.player.body, block.body)) {
+          if (block.falling) {
+            // drop block if exist
+            if (self.player.block) {
+              self.dropBlock(true);
+            }
+            self.player.takeBlock(block);
           }
         }
-      }
-    });
 
-    if (this.player.cursors.down.isDown) {
-      this.dropBlock();
+        if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
+          block.addBug();
+          var deployed = self.floor.addBlock(block, self.player);
+          if (deployed) {
+            this.deploys += 1;
+            if (this.deploys >= game.global.deploysToNextLevel) {
+              this.deploys = 0;
+              this.level += 1;
+              this.blockSpawnTime -= 500;
+              this.blockMoveTime -= 50;
+              console.log('level', this.level);
+            }
+          }
+        }
+      });
+
+      if (this.player.cursors.down.isDown) {
+        this.dropBlock();
+      }
+
+      // check player dead
+      if (this.player.y <= 330) {
+        this.player.alive = false;
+        bitmapTextCentered(200, 'ultra', "You're fired!", 28);
+        bitmapTextCentered(260, 'ultra', "Enter to restart", 12);
+        bitmapTextCentered(280, 'ultra', "Esc to exit", 12);
+        var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        var escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        enterKey.onDown.addOnce(this.restartGame, this);
+        escKey.onDown.addOnce(this.quitGame, this);
+      }
+    } else {
     }
-    //this.hud.update();
-    //game.global.time += game.time.elapsed;
-    //if (groups.viruses.length === 0) {
-    //  this.sceneDelay -= game.time.elapsed;
-    //  if (this.sceneDelay <= 0) {
-    //    if (game.global.level === game.global.totalLevels) {
-    //      game.state.start('win');
-    //    } else {
-    //      game.state.start('summary');
-    //    }
-    //  }
-    //}
   },
 
   dropBlock: function(bug) {
@@ -109,19 +109,20 @@ var playState = {
   },
 
   pauseUpdate: function() {
-    if (this.pausedGame) {
-      this.ingameMenu.update();
+    if (this.paused) {
+      //this.ingameMenu.update();
     }
   },
 
   togglePause: function() {
-    this.pausedGame = !this.pausedGame;
-    if (this.pausedGame) {
-      this.ingameMenu.show();
+    this.paused = !this.paused;
+    if (this.paused) {
+      this.pauseText = bitmapTextCentered(270, 'score', 'Paused', 48);
     } else {
-      this.ingameMenu.hide();
+      this.pauseText.destroy();
+      this.pauseText = null;
     }
-    game.paused = this.pausedGame;
+    game.paused = this.paused;
   },
 
   restartGame: function() {
