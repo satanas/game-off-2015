@@ -25,13 +25,6 @@ Octocat.prototype.constructor = Octocat;
 Octocat.prototype.update = function() {
   game.physics.arcade.collide(this, groups.floor);
 
-  //this.body.velocity.x = 0;
-  //if (this.cursors.left.isDown) {
-  //  this.body.velocity.x = -300;
-  //} else if (this.cursors.right.isDown) {
-  //  this.body.velocity.x = 300;
-  //}
-
   if (!this.walking) {
     var newX = null, blockX = null;
 
@@ -47,7 +40,7 @@ Octocat.prototype.update = function() {
       }
     }
 
-    if (newX !== null) {
+    if (newX !== null && this.alive) {
       this.move(newX, blockX);
     }
   }
