@@ -83,7 +83,7 @@ var playState = {
       }
 
       // check player dead
-      if (this.player.y <= 330) {
+      if (this.player.y <= 0) {
         this.player.alive = false;
         bitmapTextCentered(200, 'ultra', "You're fired!", 28);
         bitmapTextCentered(260, 'ultra', "Enter to restart", 12);
@@ -93,7 +93,6 @@ var playState = {
         enterKey.onDown.addOnce(this.restartGame, this);
         escKey.onDown.addOnce(this.quitGame, this);
       }
-    } else {
     }
   },
 
@@ -104,7 +103,13 @@ var playState = {
         block.addBug();
       }
       block.y = this.floor.sprite.y + 20;
+      var currHeight = this.floor.getHeight();
       this.floor.addBlock(block, this.player);
+      var newHeight = this.floor.getHeight();
+      var diff = newHeight - currHeight;
+      if (diff !== 0) {
+        this.blockSpawnTime += 12.5 * diff
+      }
     }
   },
 
