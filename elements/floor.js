@@ -67,6 +67,7 @@ Floor.prototype.checkDeploy = function(line, player) {
       var block = this.lines[line][i];
       score += block.language.points;
       app.addCode(block);
+      this.emitParticles(block.x, block.y);
       block.kill();
     }
     app.build();
@@ -113,4 +114,13 @@ Floor.prototype.checkDeploy = function(line, player) {
     player.updateHeight(this);
   }
   return deploy;
+};
+
+Floor.prototype.emitParticles = function(x, y) {
+  var emitter = game.add.emitter(x, y, 15);
+  emitter.makeParticles('particle', 0, 25);
+  emitter.minParticleSpeed.setTo(-100, -200);
+  emitter.maxParticleSpeed.setTo(50, 100);
+  //emitter.angularDrag = 10;
+  emitter.start(true, 1000, null, 5);
 };
