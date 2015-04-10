@@ -53,7 +53,7 @@ var playState = {
       var self = this;
       groups.blocks.forEach(function(block) {
         if (game.physics.arcade.intersects(self.player.body, block.body)) {
-          if (block.falling) {
+          if (block.falling && !self.player.walking) {
             // drop block if exist
             if (self.player.block) {
               self.dropBlock(true);
