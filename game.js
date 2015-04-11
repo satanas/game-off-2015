@@ -7,6 +7,7 @@ game.global = {
     speed: 600
   },
   deploysToNextLevel: 2,
+  movementsToNextLevel: 10,
   bugsToRollback: 3,
   score: 0,
   bonus: {

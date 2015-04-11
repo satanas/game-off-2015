@@ -11,6 +11,7 @@ var playState = {
     this.muted = false;
     this.paused = false;
     this.deploys = 0;
+    this.movements = 0;
     this.pauseText = null;
     game.sound.stopAll();
 
@@ -65,16 +66,7 @@ var playState = {
         if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
           block.addBug();
           var deployed = self.floor.addBlock(block, self.player);
-          if (deployed) {
-            self.deploys += 1;
-            if (self.deploys >= game.global.deploysToNextLevel) {
-              self.deploys = 0;
-              self.level += 1;
-              self.blockSpawnTime -= 500;
-              self.blockMoveTime -= 50;
-              console.log('level', self.level);
-            }
-          }
+          self.increaseDifficulty();
         }
       });
 
@@ -82,7 +74,7 @@ var playState = {
         this.dropBlock();
       }
 
-      // check player dead
+      // check player's dead
       if (this.player.y <= 0) {
         this.player.alive = false;
         bitmapTextCentered(200, 'ultra', "You're fired!", 28);
@@ -110,6 +102,22 @@ var playState = {
       if (diff !== 0) {
         this.blockSpawnTime += 12.5 * diff
       }
+      this.increaseDifficulty();
+    }
+  },
+
+  increaseDifficulty: function() {
+    this.deploys += 1;
+    this.movements += 1;
+    console.log('movements', this.movements);
+    //if (this.deploys >= game.global.deploysToNextLevel || this.movements >= game.global.movementsToNextLevel) {
+    if (this.movements >= game.global.movementsToNextLevel) {
+      this.deploys = 0;
+      this.movements = 0;
+      this.level += 1;
+      this.blockSpawnTime -= 500;
+      this.blockMoveTime -= 50;
+      console.log('level', this.level);
     }
   },
 
