@@ -23,7 +23,7 @@ var playState = {
     groups.hud = game.add.group();
     groups.floor = game.add.group();
 
-    this.player = new Octocat(100, 400);
+    this.player = new Octocat(200, 400);
     this.floor = new Floor();
     this.hud = new HUD();
 
@@ -148,8 +148,8 @@ var playState = {
     }
   },
 
-  //render: function() {
-  //  game.debug.body(this.player);
-  //  game.debug.bodyInfo(this.player, 10, 20);
-  //}
+  render: function() {
+    game.debug.body(this.player);
+    //game.debug.bodyInfo(this.player, 10, 20);
+  }
 };
