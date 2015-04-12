@@ -25,27 +25,16 @@ var loadState = {
     game.load.spritesheet('blocks', 'assets/images/blocks.png', 40, 40);
 
     // Sounds
-    //game.load.audio('capture', 'assets/sounds/capture.mp3');
-    //game.load.audio('changer', 'assets/sounds/changer.mp3');
-    //game.load.audio('walking', 'assets/sounds/walking.mp3');
-    //game.load.audio('option', 'assets/sounds/cursor.mp3');
-    //game.load.audio('select', 'assets/sounds/select.mp3');
-    //game.load.audio('win', 'assets/sounds/win.mp3');
-    //game.load.audio('blocked', 'assets/sounds/blocked.mp3');
+    game.load.audio('regular', 'assets/sounds/regular.wav');
+    game.load.audio('super', 'assets/sounds/super.wav');
+    game.load.audio('ultra', 'assets/sounds/ultra.wav');
+    game.load.audio('rollback', 'assets/sounds/rollback.wav');
+    game.load.audio('block', 'assets/sounds/block.wav');
+    game.load.audio('bug', 'assets/sounds/bug.wav');
+    game.load.audio('dead', 'assets/sounds/dead.wav');
 
     // BGMs
-    //game.load.audio('main', 'assets/sounds/main.mp3', 0.75, true);
-    //game.load.audio('finish', 'assets/sounds/finish.mp3', 0.75);
-    //game.load.audio('track1', 'assets/sounds/track1.mp3', 0.75, true);
-    //game.load.audio('track2', 'assets/sounds/track2.mp3', 0.75, true);
-    //game.load.audio('track3', 'assets/sounds/track3.mp3', 0.75, true);
-    //game.load.audio('track4', 'assets/sounds/track4.mp3', 0.75, true);
-    //game.load.audio('track5', 'assets/sounds/track5.mp3', 0.75, true);
-    //game.load.audio('track6', 'assets/sounds/track6.mp3', 0.75, true);
-
-    //for (var i=1; i<=game.global.totalLevels; i++) {
-    //  game.load.tilemap(i.toString(), 'assets/maps/' + i.toString() + '.json', null, Phaser.Tilemap.TILED_JSON);
-    //}
+    game.load.audio('main', 'assets/sounds/bgm.mp3', 0.75, true);
   },
 
   create: function() {
