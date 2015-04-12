@@ -9,6 +9,14 @@ var Floor = function() {
   this.sprite = game.add.sprite(0, 580, 'floor');
   game.physics.arcade.enable(this.sprite);
   this.sprite.body.immovable = true;
+
+  this.bugSound = game.add.audio('bug');
+  this.blockSound = game.add.audio('block');
+  this.regularSound = game.add.audio('regular');
+  this.superSound = game.add.audio('super');
+  this.ultraSound = game.add.audio('ultra');
+  this.rollbackSound = game.add.audio('rollback');
+
   groups.floor.add(this.sprite);
 };
 
@@ -43,6 +51,11 @@ Floor.prototype.addBlock = function(block, player) {
   }
 
   block.settle(block.x, 640 - (40 * (index + 1)));
+  if (block.isBug()) {
+    this.bugSound.play();
+  } else {
+    this.blockSound.play();
+  }
   this.lines[index][position] = block;
   return this.checkDeploy(index, player);
 };
@@ -76,16 +89,20 @@ Floor.prototype.checkDeploy = function(line, player) {
 
     var font = 'regular',
         sizePoints = 32,
-        sizeText = 20;
+        sizeText = 20,
+        sound = this.regularSound;
     if (app.name !== null) {
       if (app.bonus === game.global.bonus.super) {
         font = 'super';
+        sound = this.superSound;
         sizePoints = 52;
       } else if (app.bonus === game.global.bonus.ultra) {
         font = 'ultra';
+        sound = this.ultraSound;
         sizePoints = 72;
       } else if (app.bonus === game.global.bonus.rollback) {
         font = 'regular';
+        sound = this.rollbackSound;
       }
 
       var appText = bitmapTextCentered(320, font, app.name, sizeText);
@@ -113,6 +130,7 @@ Floor.prototype.checkDeploy = function(line, player) {
     this.lines.pop();
     this.sprite.y = this.getHeight();
     player.updateHeight(this);
+    sound.play();
   }
   return deploy;
 };

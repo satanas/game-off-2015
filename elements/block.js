@@ -50,3 +50,7 @@ Block.prototype.addBug = function() {
   this.language.addBug();
   this.frame = 6;
 };
+
+Block.prototype.isBug = function() {
+  return this.language.isBug();
+};

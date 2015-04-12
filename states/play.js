@@ -13,6 +13,7 @@ var playState = {
     this.deploys = 0;
     this.movements = 0;
     this.pauseText = null;
+    this.bgmSound = game.add.audio('main');
     game.sound.stopAll();
 
     game.add.image(0, 0, 'background');
@@ -33,6 +34,8 @@ var playState = {
 
     //this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
     //this.muteKey.onUp.add(this.muteGame, this);
+
+    this.bgmSound.play();
   },
 
   update: function() {
