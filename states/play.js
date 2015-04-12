@@ -27,18 +27,12 @@ var playState = {
     this.floor = new Floor();
     this.hud = new HUD();
 
-    //Ingame menu shortcuts
+    //Ingame shortcuts
     this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
     this.pauseKey.onUp.add(this.togglePause, this);
 
-    //this.quitKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
-    //this.quitKey.onUp.add(this.quitGame, this);
-
     //this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
     //this.muteKey.onUp.add(this.muteGame, this);
-
-    //this.ingameMenu = new IngameMenu(this);
-    //this.tutorial = new Tutorial(this.player);
   },
 
   update: function() {
@@ -110,7 +104,6 @@ var playState = {
     this.deploys += 1;
     this.movements += 1;
     console.log('movements', this.movements);
-    //if (this.deploys >= game.global.deploysToNextLevel || this.movements >= game.global.movementsToNextLevel) {
     if (this.movements >= game.global.movementsToNextLevel) {
       this.deploys = 0;
       this.movements = 0;
@@ -123,7 +116,6 @@ var playState = {
 
   pauseUpdate: function() {
     if (this.paused) {
-      //this.ingameMenu.update();
     }
   },
 

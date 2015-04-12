@@ -60,9 +60,10 @@ Floor.prototype.checkDeploy = function(line, player) {
 
   if (deploy) {
     // perform deploy and score
-    var bugs = 0;
-    var score = 0;
-    var app = new Application();
+    var bugs = 0,
+        score = 0,
+        app = new Application();
+
     for (var i = 0; i < 10; i++) {
       var block = this.lines[line][i];
       score += block.language.points;
