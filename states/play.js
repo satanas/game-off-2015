@@ -148,8 +148,8 @@ var playState = {
     }
   },
 
-  render: function() {
-    game.debug.body(this.player);
-    //game.debug.bodyInfo(this.player, 10, 20);
-  }
+  //render: function() {
+  //  game.debug.body(this.player);
+  //  //game.debug.bodyInfo(this.player, 10, 20);
+  //}
 };
