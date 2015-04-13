@@ -66,7 +66,7 @@ Floor.prototype.checkDeploy = function(line, player) {
 
   for (var i = 0; i < 10; i++) {
     if (this.lines[line][i] === null) {
-      deploy = false;
+      deploy = null;
       break;
     }
   }
@@ -115,6 +115,7 @@ Floor.prototype.checkDeploy = function(line, player) {
     scoreTween.to({y: 160, alpha: 0}, 1500, Phaser.Easing.Linear.None, true);
 
     game.global.score += score;
+    deploy = score;
 
     // displace blocks
     for (var j = line; j < this.lines.length - 1; j++) {

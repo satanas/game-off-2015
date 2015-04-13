@@ -64,6 +64,9 @@ var playState = {
         if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
           block.addBug();
           var deployed = self.floor.addBlock(block, self.player);
+          if (deployed < 0) {
+            self.finishGame('Too many bugs');
+          }
           self.increaseDifficulty();
         }
       });
