@@ -14,6 +14,7 @@ var playState = {
     this.movements = 0;
     this.pauseText = null;
     this.bgmSound = game.add.audio('main');
+    this.deadSound = game.add.audio('dead');
     game.sound.stopAll();
 
     game.add.image(0, 0, 'background');
@@ -32,8 +33,8 @@ var playState = {
     this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
     this.pauseKey.onUp.add(this.togglePause, this);
 
-    //this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
-    //this.muteKey.onUp.add(this.muteGame, this);
+    this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
+    this.muteKey.onUp.add(this.muteGame, this);
 
     this.bgmSound.play();
   },
@@ -73,14 +74,7 @@ var playState = {
 
       // check player's dead
       if (this.player.y <= 0) {
-        this.player.alive = false;
-        bitmapTextCentered(200, 'ultra', "You're fired!", 28);
-        bitmapTextCentered(260, 'ultra', "Enter to restart", 12);
-        bitmapTextCentered(280, 'ultra', "Esc to exit", 12);
-        var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        var escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-        enterKey.onDown.addOnce(this.restartGame, this);
-        escKey.onDown.addOnce(this.quitGame, this);
+        this.finishGame('Deadline reached');
       }
     }
   },
@@ -106,7 +100,6 @@ var playState = {
   increaseDifficulty: function() {
     this.deploys += 1;
     this.movements += 1;
-    console.log('movements', this.movements);
     if (this.movements >= game.global.movementsToNextLevel) {
       this.deploys = 0;
       this.movements = 0;
@@ -118,14 +111,14 @@ var playState = {
   },
 
   pauseUpdate: function() {
-    if (this.paused) {
-    }
+    //if (this.paused) {
+    //}
   },
 
   togglePause: function() {
     this.paused = !this.paused;
     if (this.paused) {
-      this.pauseText = bitmapTextCentered(270, 'score', 'Paused', 48);
+      this.pauseText = bitmapTextCentered(270, 'title', 'Paused', 48);
     } else {
       this.pauseText.destroy();
       this.pauseText = null;
@@ -145,10 +138,30 @@ var playState = {
     this.muted = !this.muted;
 
     if (this.muted) {
-      this.bgmPool.stop();
+      this.bgmSound.stop();
     } else {
-      this.bgmPool.resume();
+      this.bgmSound.play();
     }
+  },
+
+  finishGame: function(subtitle) {
+    groups.blocks.forEach(function(block) {
+      block.falling = false;
+    });
+    game.sound.stopAll();
+    this.hud.hideScore();
+    this.player.fire();
+    bitmapTextCentered(200, 'ultra', "You're fired!", 28);
+    bitmapTextCentered(250, 'ultra', "Score: " + String(game.global.score), 17);
+    bitmapTextCentered(320, 'super', "Enter to restart", 12);
+    bitmapTextCentered(340, 'super', "Esc to exit", 12);
+
+    var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+    var escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    enterKey.onDown.addOnce(this.restartGame, this);
+    escKey.onDown.addOnce(this.quitGame, this);
+
+    this.deadSound.play();
   },
 
   //render: function() {
