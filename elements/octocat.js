@@ -109,4 +109,10 @@ Octocat.prototype.dropBlock = function() {
   var b = this.block;
   this.block = null;
   return b;
-}
+};
+
+Octocat.prototype.fire = function() {
+  this.alive = false;
+  this.animations.stop();
+  this.frame = 4;
+};

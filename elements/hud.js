@@ -9,3 +9,7 @@ HUD.prototype.constructor = HUD;
 HUD.prototype.update = function() {
   this.score.setText(String(game.global.score));
 };
+
+HUD.prototype.hideScore = function() {
+  this.score.visible = false;
+};
