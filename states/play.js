@@ -36,11 +36,11 @@ var playState = {
     this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
     this.muteKey.onUp.add(this.muteGame, this);
 
-    this.bgmSound.play();
+    this.bgmSound.play('', 0, 0.75, true);
   },
 
   update: function() {
-    this.hud.update();
+    this.hud.update(this);
     this.elapsed += game.time.elapsedMS;
 
     if (this.player.alive && !this.paused) {
@@ -143,7 +143,7 @@ var playState = {
     if (this.muted) {
       this.bgmSound.stop();
     } else {
-      this.bgmSound.play();
+      this.bgmSound.play('', 0, 0.75, true);
     }
   },
 

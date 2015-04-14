@@ -24,6 +24,7 @@ var loadState = {
     // Spritesheets
     game.load.spritesheet('octocat', 'assets/images/octocat.png', 80, 80);
     game.load.spritesheet('blocks', 'assets/images/blocks.png', 40, 40);
+    game.load.spritesheet('speaker', 'assets/images/speaker.png', 48, 48);
 
     // Sounds
     game.load.audio('regular', 'assets/sounds/regular.wav');
