@@ -86,7 +86,7 @@ Octocat.prototype.stopWalking = function() {
   if (this.block) {
     this.block.x = this.newX;
   }
-  this.walkingDelay = 22;
+  this.walkingDelay = 20;
 };
 
 Octocat.prototype.updateHeight = function(floor) {
