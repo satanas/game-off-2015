@@ -108,6 +108,12 @@ var playState = {
       this.level += 1;
       this.blockSpawnTime -= 500;
       this.blockMoveTime -= 50;
+      if (this.blockSpawnTime < game.global.block.minSpawn) {
+        this.blockSpawnTime = game.global.block.minSpawn;
+      }
+      if (this.blockMoveTime < game.global.block.minSpeed) {
+        this.blockMoveTime = game.global.block.minSpeed;
+      }
       console.log('level', this.level);
     }
   },
@@ -151,12 +157,12 @@ var playState = {
       block.falling = false;
     });
     game.sound.stopAll();
-    this.hud.hideScore();
+    this.hud.hide();
     this.player.fire();
-    bitmapTextCentered(200, 'ultra', "You're fired!", 28);
-    bitmapTextCentered(250, 'ultra', "Score: " + String(game.global.score), 17);
-    bitmapTextCentered(320, 'super', "Enter to restart", 12);
-    bitmapTextCentered(340, 'super', "Esc to exit", 12);
+    bitmapTextCentered(200, 'rollback', "You're fired!", 28);
+    bitmapTextCentered(250, 'rollback', "Score: " + String(game.global.score), 17);
+    bitmapTextCentered(320, 'rollback', "Enter to restart", 12);
+    bitmapTextCentered(340, 'rollback', "Esc to exit", 12);
 
     var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     var escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);

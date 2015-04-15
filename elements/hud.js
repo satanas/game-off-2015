@@ -17,6 +17,7 @@ HUD.prototype.update = function() {
   }
 };
 
-HUD.prototype.hideScore = function() {
+HUD.prototype.hide = function() {
   this.score.visible = false;
+  this.speaker.visible = false;
 };
