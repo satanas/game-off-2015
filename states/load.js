@@ -2,14 +2,13 @@
 
 var loadState = {
   preload: function() {
-    bitmapTextCentered(game.height - 20, 'open_sans', 'Loading...', 20);
+    bitmapTextCentered(game.height - 20, 'rollback', 'Loading...', 20);
 
     var progressBar = game.add.sprite(100, 300, 'progressbar');
     progressBar.anchor.setTo(0, 0.5);
     game.load.setPreloadSprite(progressBar);
 
     // Fonts
-    game.load.bitmapFont('rollback', 'assets/fonts/press-start-rollback.png', 'assets/fonts/press-start-rollback.fnt');
     game.load.bitmapFont('super', 'assets/fonts/press-start-super.png', 'assets/fonts/press-start-super.fnt');
     game.load.bitmapFont('ultra', 'assets/fonts/press-start-ultra.png', 'assets/fonts/press-start-ultra.fnt');
     game.load.bitmapFont('title', 'assets/fonts/press-start-title.png', 'assets/fonts/press-start-title.fnt');

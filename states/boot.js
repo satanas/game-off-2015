@@ -3,7 +3,7 @@
 var bootState = {
   preload: function() {
     game.load.image('progressbar', 'assets/images/progressbar.png');
-    game.load.bitmapFont('open_sans', 'assets/fonts/open_sans.png', 'assets/fonts/open_sans.fnt');
+    game.load.bitmapFont('rollback', 'assets/fonts/press-start-rollback.png', 'assets/fonts/press-start-rollback.fnt');
   },
 
   create: function() {
