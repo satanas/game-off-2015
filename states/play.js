@@ -22,12 +22,11 @@ var playState = {
     game.global.score = 0;
 
     groups.blocks = game.add.group();
-    groups.hud = game.add.group();
     groups.floor = game.add.group();
 
     this.player = new Octocat(200, 400);
     this.floor = new Floor();
-    this.hud = new HUD();
+    this.hud = new HUD(this);
 
     //Ingame shortcuts
     this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
@@ -40,7 +39,7 @@ var playState = {
   },
 
   update: function() {
-    this.hud.update(this);
+    this.hud.update();
     this.elapsed += game.time.elapsedMS;
 
     if (this.player.alive && !this.paused) {
