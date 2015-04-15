@@ -61,17 +61,18 @@ Floor.prototype.addBlock = function(block, player) {
 };
 
 Floor.prototype.checkDeploy = function(line, player) {
-  var deploy = true,
+  var tryDeploy = true,
+      deploy = 0,
       self = this;
 
   for (var i = 0; i < 10; i++) {
     if (this.lines[line][i] === null) {
-      deploy = null;
+      tryDeploy = false;
       break;
     }
   }
 
-  if (deploy) {
+  if (tryDeploy) {
     // perform deploy and score
     var bugs = 0,
         score = 0,
@@ -81,8 +82,6 @@ Floor.prototype.checkDeploy = function(line, player) {
       var block = this.lines[line][i];
       score += block.language.points;
       app.addCode(block);
-      this.emitParticles(block.x, block.y);
-      block.kill();
     }
     app.build();
     score += app.bonus;
@@ -91,7 +90,12 @@ Floor.prototype.checkDeploy = function(line, player) {
         sizePoints = 32,
         sizeText = 20,
         sound = this.regularSound;
-    if (app.name !== null) {
+    if (app.bonus < 0) {
+      font = 'rollback';
+      sizePoints = 28;
+      score = 'No deploy';
+      sound = this.rollbackSound;
+    } else {
       if (app.bonus === game.global.bonus.super) {
         font = 'super';
         sound = this.superSound;
@@ -100,38 +104,39 @@ Floor.prototype.checkDeploy = function(line, player) {
         font = 'ultra';
         sound = this.ultraSound;
         sizePoints = 72;
-      } else if (app.bonus === game.global.bonus.rollback) {
-        font = 'rollback';
-        sound = this.rollbackSound;
       }
 
-      var appText = bitmapTextCentered(320, font, app.name, sizeText);
-      var appTween = game.add.tween(appText);
-      appTween.to({y: 230, alpha: 0}, 250, Phaser.Easing.Linear.None, true, 1500);
+      game.global.score += score;
+      deploy = score;
+
+      // displace blocks
+      for (var j = line; j < this.lines.length - 1; j++) {
+        for (var i = 0; i < 10; i++) {
+          this.lines[j][i] = this.lines[j + 1][i];
+          if (this.lines[j][i] !== null) {
+            this.lines[j][i].displace();
+          }
+        }
+      }
+
+      // remove last line
+      for (var i = 0; i < 10; i++) {
+        var block = this.lines[line][i];
+        this.emitParticles(block.x, block.y);
+        block.kill();
+      }
+      this.lines.pop();
+      this.sprite.y = this.getHeight();
+      player.updateHeight(this);
     }
+    sound.play();
+    var appText = bitmapTextCentered(320, font, app.name, sizeText);
+    var appTween = game.add.tween(appText);
+    appTween.to({y: 230, alpha: 0}, 250, Phaser.Easing.Linear.None, true, 1500);
 
     var scoreText = bitmapTextCentered(250, font, String(score), sizePoints);
     var scoreTween = game.add.tween(scoreText);
     scoreTween.to({y: 160, alpha: 0}, 250, Phaser.Easing.Linear.None, true, 1500);
-
-    game.global.score += score;
-    deploy = score;
-
-    // displace blocks
-    for (var j = line; j < this.lines.length - 1; j++) {
-      for (var i = 0; i < 10; i++) {
-        this.lines[j][i] = this.lines[j + 1][i];
-        if (this.lines[j][i] !== null) {
-          this.lines[j][i].displace();
-        }
-      }
-    }
-
-    // remove last line
-    this.lines.pop();
-    this.sprite.y = this.getHeight();
-    player.updateHeight(this);
-    sound.play();
   }
   return deploy;
 };
