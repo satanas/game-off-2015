@@ -30,20 +30,29 @@ Application.prototype.build = function() {
     this.bonus = game.global.bonus.ultra;
   } else if (this.value === 5) {
     this.name = 'JRuby';
-    this.bonus = game.global.bonus.super;
+    this.bonus = game.global.bonus.ultra;
   } else if (this.value === 12) {
     this.name = 'Jython';
+    this.bonus = game.global.bonus.ultra;
+  } else if (this.value === 21 || this.value === 23) {
+    this.name = 'JRuby Web';
     this.bonus = game.global.bonus.super;
-  } else if (this.value === 48) {
+  } else if (this.value === 30 || this.value === 28) {
+    this.name = 'Jython Web';
+    this.bonus = game.global.bonus.super;
+  } else if (this.value === 80 || this.value === 82 || this.value === 18) {
+    this.name = 'Standard Web';
+    this.bonus = game.global.bonus.super;
+  } else if (this.value === 48 || this.value === 34 || this.value === 50) {
     this.name = 'PHP Web';
     this.bonus = game.global.bonus.super;
-  } else if (this.value === 20) {
+  } else if (this.value === 20 || this.value === 22 || this.value === 6) {
     this.name = 'JSP';
     this.bonus = game.global.bonus.super;
-  } else if (this.value === 17) {
+  } else if (this.value === 17 || this.value === 19 || this.value === 3) {
     this.name = 'Ruby on Rails';
     this.bonus = game.global.bonus.super;
-  } else if (this.value === 24) {
+  } else if (this.value === 24 || this.value === 26 || this.value === 10) {
     this.name = 'Django';
     this.bonus = game.global.bonus.super;
   } else if (this.value === 18) {
