@@ -4,16 +4,17 @@ var game = new Phaser.Game(400, 640, Phaser.AUTO, 'game');
 game.global = {
   block: {
     spawn: 8000,
-    speed: 600
+    speed: 550,
+    minSpawn: 2000,
+    minSpeed: 100,
   },
   deploysToNextLevel: 2,
   movementsToNextLevel: 10,
-  bugsToRollback: 3,
+  bugsToRollback: 4,
   score: 0,
   bonus: {
     ultra: 600,
-    super: 300,
-    rollback: -200
+    super: 300
   }
 }
 var debug = false;

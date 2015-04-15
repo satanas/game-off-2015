@@ -30,7 +30,7 @@ Octocat.prototype.update = function() {
   game.physics.arcade.collide(this, groups.floor);
 
   if (this.walking && this.walkingDelay === 0) {
-    var deltaX = game.time.elapsedMS * 40/100;
+    var deltaX = game.time.elapsedMS * 60/100;
     if (this.direction === 'left') {
       this.walkLeft(deltaX);
     } else {
