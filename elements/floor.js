@@ -87,7 +87,7 @@ Floor.prototype.checkDeploy = function(line, player) {
     app.build();
     score += app.bonus;
 
-    var font = 'regular',
+    var font = 'title',
         sizePoints = 32,
         sizeText = 20,
         sound = this.regularSound;
@@ -101,18 +101,18 @@ Floor.prototype.checkDeploy = function(line, player) {
         sound = this.ultraSound;
         sizePoints = 72;
       } else if (app.bonus === game.global.bonus.rollback) {
-        font = 'regular';
+        font = 'rollback';
         sound = this.rollbackSound;
       }
 
       var appText = bitmapTextCentered(320, font, app.name, sizeText);
       var appTween = game.add.tween(appText);
-      appTween.to({y: 230, alpha: 0}, 1500, Phaser.Easing.Linear.None, true);
+      appTween.to({y: 230, alpha: 0}, 250, Phaser.Easing.Linear.None, true, 1500);
     }
 
     var scoreText = bitmapTextCentered(250, font, String(score), sizePoints);
     var scoreTween = game.add.tween(scoreText);
-    scoreTween.to({y: 160, alpha: 0}, 1500, Phaser.Easing.Linear.None, true);
+    scoreTween.to({y: 160, alpha: 0}, 250, Phaser.Easing.Linear.None, true, 1500);
 
     game.global.score += score;
     deploy = score;
