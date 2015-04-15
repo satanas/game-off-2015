@@ -159,10 +159,17 @@ var playState = {
     game.sound.stopAll();
     this.hud.hide();
     this.player.fire();
-    bitmapTextCentered(200, 'rollback', "You're fired!", 28);
-    bitmapTextCentered(250, 'rollback', "Score: " + String(game.global.score), 17);
-    bitmapTextCentered(320, 'rollback', "Enter to restart", 12);
-    bitmapTextCentered(340, 'rollback', "Esc to exit", 12);
+    var bg = this.game.add.graphics(0, 0);
+    bg.beginFill(0x000000, 1);
+    bg.drawRect(game.camera.x, game.camera.y, game.width, game.height);
+    bg.alpha = 0.3;
+    bg.endFill();
+
+    bitmapTextCentered(200, 'rollback', "You're fired!", 29);
+    bitmapTextCentered(250, 'rollback', subtitle, 20);
+    bitmapTextCentered(320, 'instructions', "Your score: " + String(game.global.score), 18);
+    bitmapTextCentered(390, 'instructions', "Enter to restart", 12);
+    bitmapTextCentered(410, 'instructions', "Esc to exit", 12);
 
     var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
     var escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
