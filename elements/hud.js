@@ -2,7 +2,7 @@
 
 var HUD = function() {
   this.speaker = game.add.sprite(340, 10, 'speaker', 0);
-  this.score = game.add.bitmapText(15, 20, 'score', String(game.global.score), 32);
+  this.score = game.add.bitmapText(15, 20, 'title', String(game.global.score), 32);
 };
 
 HUD.prototype.constructor = HUD;
