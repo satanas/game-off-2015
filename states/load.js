@@ -2,7 +2,7 @@
 
 var loadState = {
   preload: function() {
-    bitmapTextCentered(game.height - 20, 'rollback', 'Loading...', 20);
+    bitmapTextCentered(240, 'rollback', 'Loading...', 20);
 
     var progressBar = game.add.sprite(100, 300, 'progressbar');
     progressBar.anchor.setTo(0, 0.5);
