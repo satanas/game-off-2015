@@ -11,7 +11,7 @@ Application.prototype.constructor = Application;
 
 Application.prototype.build = function() {
   if (this.bugs >= game.global.bugsToRollback) {
-    this.name = 'Too many bugs';
+    this.name = 'Rollback';
     this.bonus = game.global.bonus.rollback;
   } else if (this.value === 1) {
     this.name = 'Pure Ruby';
@@ -58,6 +58,8 @@ Application.prototype.build = function() {
   } else if (this.value === 18) {
     this.name = 'Express';
     this.bonus = game.global.bonus.super;
+  } else {
+    this.name = 'Unknown app';
   }
 };
 
