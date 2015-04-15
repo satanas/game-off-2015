@@ -109,6 +109,13 @@ Floor.prototype.checkDeploy = function(line, player) {
       game.global.score += score;
       deploy = score;
 
+      // remove last line
+      for (var i = 0; i < 10; i++) {
+        var block = this.lines[line][i];
+        this.emitParticles(block.x, block.y);
+        block.kill();
+      }
+
       // displace blocks
       for (var j = line; j < this.lines.length - 1; j++) {
         for (var i = 0; i < 10; i++) {
@@ -119,12 +126,6 @@ Floor.prototype.checkDeploy = function(line, player) {
         }
       }
 
-      // remove last line
-      for (var i = 0; i < 10; i++) {
-        var block = this.lines[line][i];
-        this.emitParticles(block.x, block.y);
-        block.kill();
-      }
       this.lines.pop();
       this.sprite.y = this.getHeight();
       player.updateHeight(this);
