@@ -27,9 +27,6 @@ var instructionsState = {
     game.add.bitmapText(15, 430, 'instructions', '* Arrows to move and drop', 12);
     game.add.bitmapText(15, 460, 'instructions', '* P to pause the game', 12);
     game.add.bitmapText(15, 490, 'instructions', '* M to mute the music', 12);
-    //game.add.bitmapText(10, 125, 'instructions', '   the line is completed', 12);
-    //game.add.bitmapText(10, 155, 'instructions', '4. Each deploy gives you points', 12);
-    //game.add.bitmapText(10, 170, 'instructions', '   and the line will dissapear', 12);
     bitmapTextCentered(game.height - 40, 'instructions', 'Press ENTER to continue', 12);
 
     var enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
