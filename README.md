@@ -6,6 +6,8 @@ applications. Combine the blocks to build popular applications and earn lots of 
 It was born as a fork of [Octocat Jump](https://github.com/ogoshen/game-off-2012)
 and is my entry for the [Github Game Off 2015](https://github.com/blog/1972-the-game-has-changed).
 
+It works in Chrome, Firefox and Safari. It probably works in other browsers but I haven't tested.
+
 [Play it!](http://satanas.github.io/game-off-2015/)
 
 Rules
