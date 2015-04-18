@@ -8,16 +8,17 @@ var Octocat = function(x, y, floor) {
   this.body.gravity.y = 1000;
   this.body.collideWorldBounds = true;
   this.body.setSize(40, 56, 20, 13);
-  //this.body.x = x;
   this.block = null;
+  this.walking = false;
   this.walkingDelay = 0;
   this.newX = x;
   this.direction = null;
+  this.maxSpeed = 1.2;
+  this.minSpeed = 0.5;
+  this.speed = 0.5;
 
   this.cursors = game.input.keyboard.createCursorKeys();
-
   this.animations.add('main', [0, 1, 2, 3], 12, true);
-  //this.changerSound = game.add.audio('changer');
 
   this.animations.play('main');
   game.add.existing(this);
@@ -30,7 +31,7 @@ Octocat.prototype.update = function() {
   game.physics.arcade.collide(this, groups.floor);
 
   if (this.walking && this.walkingDelay === 0) {
-    var deltaX = game.time.elapsedMS * 60/100;
+    var deltaX = game.time.elapsedMS * this.speed;
     if (this.direction === 'left') {
       this.walkLeft(deltaX);
     } else {
@@ -115,4 +116,14 @@ Octocat.prototype.fire = function() {
   this.alive = false;
   this.animations.stop();
   this.frame = 4;
+};
+
+Octocat.prototype.incSpeed = function() {
+  this.speed += 0.25;
+  if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
+};
+
+Octocat.prototype.decSpeed = function() {
+  this.speed -= 0.25;
+  if (this.speed < this.minSpeed) this.speed = this.minSpeed;
 };

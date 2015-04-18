@@ -129,12 +129,17 @@ var playState = {
       this.level += 1;
       this.blockSpawnTime -= 500;
       this.blockMoveTime -= 50;
+      this.player.incSpeed();
       console.log('level', this.level);
     }
 
     var diff = this.floor.getHeight() - this.currentHeight;
-    if (diff !== 0) {
-      this.blockSpawnTime += 12.5 * diff
+    if (diff > 0) {
+      this.player.decSpeed();
+      this.blockSpawnTime += 12.5 * diff;
+    } else if (diff < 0) {
+      this.player.incSpeed();
+      this.blockSpawnTime += 12.5 * diff;
     }
 
     // Do not exceed the limits
