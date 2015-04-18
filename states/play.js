@@ -10,10 +10,12 @@ var playState = {
     this.level = 1;
     this.muted = false;
     this.paused = false;
+    this.fastPaced = false;
     this.deploys = 0;
     this.movements = 0;
     this.pauseText = null;
-    this.bgmSound = game.add.audio('main');
+    this.normalBgmSound = game.add.audio('normal-bgm');
+    this.fastBgmSound = game.add.audio('fast-bgm');
     this.deadSound = game.add.audio('dead');
     game.sound.stopAll();
 
@@ -24,7 +26,7 @@ var playState = {
     groups.blocks = game.add.group();
     groups.floor = game.add.group();
 
-    this.player = new Octocat(200, 400);
+    this.player = new Octocat(200, 515);
     this.floor = new Floor();
     this.hud = new HUD(this);
     this.instructions = new Instructions();
@@ -36,7 +38,13 @@ var playState = {
     this.muteKey = game.input.keyboard.addKey(Phaser.Keyboard.M);
     this.muteKey.onUp.add(this.muteGame, this);
 
-    this.bgmSound.play('', 0, 0.75, true);
+    this.normalBgmSound.play('', 0, 0.75, true);
+    //this.normalBgmSound.onLoop.add(function() {
+    //  if (this.level > 10 && !this.fastPaced) {
+    //    this.normalBgmSound.stop();
+    //    this.fastBgmSound.play('', 0, 0.75, true);
+    //  }
+    //}, this);
   },
 
   update: function() {
@@ -70,6 +78,9 @@ var playState = {
           var deployed = self.floor.addBlock(block, self.player);
           if (deployed && deployed < 0) {
             self.finishGame('Too many bugs');
+          }
+          if (this.instructions.step >= 2) {
+            this.instructions.next();
           }
           self.increaseDifficulty();
         }

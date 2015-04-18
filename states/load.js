@@ -36,7 +36,8 @@ var loadState = {
     game.load.audio('dead', 'assets/sounds/dead.wav');
 
     // BGMs
-    game.load.audio('main', 'assets/sounds/bgm.mp3', 0.75, true);
+    game.load.audio('normal-bgm', 'assets/sounds/korobeiniki-normal.mp3', 0.75, true);
+    game.load.audio('fast-bgm', 'assets/sounds/korobeiniki-fast.mp3', 0.75, true);
   },
 
   create: function() {
