@@ -31,6 +31,8 @@ var playState = {
     this.hud = new HUD(this);
     this.instructions = new Instructions();
 
+    this.currentHeight = this.floor.getHeight();
+
     //Ingame shortcuts
     this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
     this.pauseKey.onUp.add(this.togglePause, this);
@@ -39,12 +41,6 @@ var playState = {
     this.muteKey.onUp.add(this.muteGame, this);
 
     this.normalBgmSound.play('', 0, 0.75, true);
-    //this.normalBgmSound.onLoop.add(function() {
-    //  if (this.level > 10 && !this.fastPaced) {
-    //    this.normalBgmSound.stop();
-    //    this.fastBgmSound.play('', 0, 0.75, true);
-    //  }
-    //}, this);
   },
 
   update: function() {
@@ -64,7 +60,7 @@ var playState = {
           if (block.falling && !self.player.walking) {
             // drop block if exist
             if (self.player.block) {
-              self.dropBlock(true);
+              self.dropBlock(self.player.dropBlock(), true);
             }
             self.player.takeBlock(block);
             if (self.movements === 0 && self.instructions.step === 0) {
@@ -74,20 +70,12 @@ var playState = {
         }
 
         if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
-          block.addBug();
-          var deployed = self.floor.addBlock(block, self.player);
-          if (deployed && deployed < 0) {
-            self.finishGame('Too many bugs');
-          }
-          if (this.instructions.step >= 2) {
-            this.instructions.next();
-          }
-          self.increaseDifficulty();
+          self.dropBlock(block, true);
         }
       });
 
       if (this.player.cursors.down.isDown) {
-        this.dropBlock();
+        this.dropBlock(this.player.dropBlock());
       }
 
       // check player's dead
@@ -97,44 +85,64 @@ var playState = {
     }
   },
 
-  dropBlock: function(bug) {
-    var block = this.player.dropBlock();
+  dropBlock: function(block, bug) {
     if (block !== null) {
       if (bug) {
         block.addBug();
       }
       block.y = this.floor.sprite.y + 20;
-      var currHeight = this.floor.getHeight();
-      var deploy = this.floor.addBlock(block, this.player);
-      var newHeight = this.floor.getHeight();
-      var diff = newHeight - currHeight;
-      if (diff !== 0) {
-        this.blockSpawnTime += 12.5 * diff
-      }
-      this.increaseDifficulty();
+      this.currentHeight = this.floor.getHeight();
+      var deployed = this.floor.addBlock(block, this.player);
 
-      if (this.instructions.step >= 1) {
-        this.instructions.next();
+      this.onDrop();
+      if (deployed !== null) {
+        this.onDeploy(deployed);
       }
     }
   },
 
-  increaseDifficulty: function() {
-    this.deploys += 1;
+  onDrop: function(block) {
     this.movements += 1;
+    this.increaseDifficulty();
+
+    if (this.instructions.step >= 1) {
+      this.instructions.next();
+    }
+  },
+
+  onDeploy: function(value) {
+    this.deploys += 1;
+    if (value < 0) {
+      this.finishGame('Too many bugs');
+    }
+    if (this.level > 8 && !this.fastPaced) {
+      this.normalBgmSound.fadeOut(500);
+      this.fastBgmSound.play('', 0, 1.0, true);
+      this.fastPaced = true;
+    }
+  },
+
+  increaseDifficulty: function() {
     if (this.movements >= game.global.movementsToNextLevel) {
       this.deploys = 0;
       this.movements = 0;
       this.level += 1;
       this.blockSpawnTime -= 500;
       this.blockMoveTime -= 50;
-      if (this.blockSpawnTime < game.global.block.minSpawn) {
-        this.blockSpawnTime = game.global.block.minSpawn;
-      }
-      if (this.blockMoveTime < game.global.block.minSpeed) {
-        this.blockMoveTime = game.global.block.minSpeed;
-      }
       console.log('level', this.level);
+    }
+
+    var diff = this.floor.getHeight() - this.currentHeight;
+    if (diff !== 0) {
+      this.blockSpawnTime += 12.5 * diff
+    }
+
+    // Do not exceed the limits
+    if (this.blockSpawnTime < game.global.block.minSpawn) {
+      this.blockSpawnTime = game.global.block.minSpawn;
+    }
+    if (this.blockMoveTime < game.global.block.minSpeed) {
+      this.blockMoveTime = game.global.block.minSpeed;
     }
   },
 
@@ -166,9 +174,14 @@ var playState = {
     this.muted = !this.muted;
 
     if (this.muted) {
-      this.bgmSound.stop();
+      this.normalBgmSound.stop();
+      this.fastBgmSound.stop();
     } else {
-      this.bgmSound.play('', 0, 0.75, true);
+      if (this.fastPaced){
+        this.fastBgmSound.play('', 0, 0.75, true);
+      } else {
+        this.normalBgmSound.play('', 0, 0.75, true);
+      }
     }
   },
 

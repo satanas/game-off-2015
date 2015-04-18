@@ -3,8 +3,8 @@
 var game = new Phaser.Game(400, 640, Phaser.AUTO, 'game');
 game.global = {
   block: {
-    spawn: 8000,
-    speed: 600,
+    spawn: 2000,
+    speed: 200,
     minSpawn: 2000,
     minSpeed: 100,
   },
