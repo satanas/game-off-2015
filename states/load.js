@@ -19,6 +19,7 @@ var loadState = {
     game.load.image('floor', 'assets/images/floor.png');
     game.load.image('particle', 'assets/images/particle.png');
     game.load.image('background', 'assets/images/background.png');
+    game.load.image('poster', 'assets/images/poster.png');
 
     // Spritesheets
     game.load.spritesheet('octocat', 'assets/images/octocat.png', 80, 80);

@@ -27,6 +27,7 @@ var playState = {
     this.player = new Octocat(200, 400);
     this.floor = new Floor();
     this.hud = new HUD(this);
+    this.instructions = new Instructions();
 
     //Ingame shortcuts
     this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.P);
@@ -40,6 +41,7 @@ var playState = {
 
   update: function() {
     this.hud.update();
+    this.instructions.update();
     this.elapsed += game.time.elapsedMS;
 
     if (this.player.alive && !this.paused) {
@@ -57,13 +59,16 @@ var playState = {
               self.dropBlock(true);
             }
             self.player.takeBlock(block);
+            if (self.movements === 0 && self.instructions.step === 0) {
+              self.instructions.next();
+            }
           }
         }
 
         if (game.physics.arcade.intersects(groups.floor.children[0].body, block.body) && block.falling) {
           block.addBug();
           var deployed = self.floor.addBlock(block, self.player);
-          if (deployed < 0) {
+          if (deployed && deployed < 0) {
             self.finishGame('Too many bugs');
           }
           self.increaseDifficulty();
@@ -89,13 +94,17 @@ var playState = {
       }
       block.y = this.floor.sprite.y + 20;
       var currHeight = this.floor.getHeight();
-      this.floor.addBlock(block, this.player);
+      var deploy = this.floor.addBlock(block, this.player);
       var newHeight = this.floor.getHeight();
       var diff = newHeight - currHeight;
       if (diff !== 0) {
         this.blockSpawnTime += 12.5 * diff
       }
       this.increaseDifficulty();
+
+      if (this.instructions.step >= 1) {
+        this.instructions.next();
+      }
     }
   },
 

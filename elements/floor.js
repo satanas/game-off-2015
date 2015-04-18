@@ -62,7 +62,7 @@ Floor.prototype.addBlock = function(block, player) {
 
 Floor.prototype.checkDeploy = function(line, player) {
   var tryDeploy = true,
-      deploy = 0,
+      deploy = null,
       self = this;
 
   for (var i = 0; i < 10; i++) {
@@ -74,6 +74,7 @@ Floor.prototype.checkDeploy = function(line, player) {
 
   if (tryDeploy) {
     // perform deploy and score
+    deploy = 0;
     var bugs = 0,
         score = 0,
         app = new Application();
