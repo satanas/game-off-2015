@@ -56,9 +56,9 @@ Instructions.prototype.update = function() {
     } else if (this.step === 4) {
       this.createLabels('Combine the blocks to', 'create popular apps');
     } else if (this.step === 5) {
-      this.createLabels('Popular apps will deploy', 'giving you points');
+      this.createLabels('Popular apps will deploy,', 'giving you points');
     } else if (this.step === 6) {
-      this.createLabels('Unknown apps won\'t deploy', 'making your code grow');
+      this.createLabels('Unknown apps won\'t deploy,', 'making your code grow');
     } else if (this.step === 7) {
       this.createLabels('If you reach the top of', 'the screen, you\'re fired');
     } else if (this.step === 8) {
